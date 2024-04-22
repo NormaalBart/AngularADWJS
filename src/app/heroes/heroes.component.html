@@ -1,0 +1,27 @@
+<div class="flex">
+  <div class="w-1/4 bg-gray-200 text-gray-800 p-4">
+    <h2 class="text-xl font-bold">Heroes List</h2>
+    <ul>
+      <li *ngFor="let hero of heroes" 
+          [class]="hero === selectedHero ? 'bg-blue-300' : ''"
+          (click)="onSelect(hero)"
+          class="cursor-pointer hover:bg-blue-100 p-2 transition-colors duration-300">
+        <span class="text-gray-600">{{ hero.id }}</span> - <span>{{ hero.name }}</span>
+      </li>
+    </ul>    
+  </div>
+  <div class="w-3/4 ml-4">
+    <div *ngIf="selectedHero" class="bg-white shadow rounded-lg p-4">
+      <h2 class="text-xl font-bold">{{ selectedHero.name }} Details</h2>
+      <div class="text-gray-800">id: {{ selectedHero.id }}</div>
+      <div class="mt-4">
+        <label for="hero-name" class="block text-gray-800 font-bold">Hero name:</label>
+        <input id="hero-name" [(ngModel)]="selectedHero.name" placeholder="name"
+               class="mt-1 p-2 border rounded shadow w-full">
+      </div>
+    </div>
+    <div *ngIf="!selectedHero" class="bg-white shadow rounded-lg p-4 text-gray-800">
+      <p>No hero selected.</p>
+    </div>
+  </div>
+</div>
