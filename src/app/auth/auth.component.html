@@ -1,0 +1,23 @@
+<div
+  class="max-w-md mx-auto mt-10 bg-white rounded-lg border-2 border-gray-200"
+>
+  <div class="flex justify-between divide-x-2 divide-gray-200">
+    <a
+      [routerLink]="'/login'"
+      routerLinkActive="bg-gray-100 font-semibold"
+      class="top rounded-tl-lg"
+    >
+      Login
+    </a>
+    <a
+      [routerLink]="'/register'"
+      routerLinkActive="bg-gray-100 font-semibold"
+      class="top rounded-tr-lg"
+    >
+      Registeren
+    </a>
+  </div>
+  <div class="p-5 bg-gray-100">
+    <ng-content ></ng-content>
+  </div>
+</div>

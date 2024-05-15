@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { HeroesComponent } from './heroes/heroes.component';
-import { MessagesComponent } from './messages/messages.component';
+import { Component } from '@angular/core'
+import { RouterModule } from '@angular/router'
+import { GuestComponent } from './layout/guest/guest.component'
+import { AdminComponent } from './layout/admin/admin.component'
+import { PageLayout } from './enums/pagelayout.enum';
+import { PageLayoutService } from './services/page-layout.service';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, HeroesComponent, MessagesComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, GuestComponent, AdminComponent],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'Tour of Heroes';
-}
+  readonly PageLayout = PageLayout;
+  
+  constructor(public pageLayoutService: PageLayoutService) {}}

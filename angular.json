@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AngularDemo": {
+    "angulardemo": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "AngularDemo:build:production"
+              "buildTarget": "angulardemo:build:production"
             },
             "development": {
-              "buildTarget": "AngularDemo:build:development"
+              "buildTarget": "angulardemo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -68,7 +68,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "AngularDemo:build"
+            "buildTarget": "angulardemo:build"
           }
         },
         "test": {
