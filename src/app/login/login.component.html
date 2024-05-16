@@ -1,6 +1,7 @@
 <auth-wrapper>
   <h2 class="text-2xl font-bold mb-4">Inloggen</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4">
+  <app-loading *ngIf="loading" text="Ïnloggen"/>
+  <form *ngIf="!loading" [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4">
     <div>
       <label class="block text-sm font-medium">Email</label>
       <input
