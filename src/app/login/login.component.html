@@ -10,14 +10,14 @@
       />
       <div
         *ngIf="
-          loginForm.get('email').invalid && loginForm.get('email')?.touched
+          loginForm.get('email')?.invalid && loginForm.get('email')?.touched
         "
         class="text-red-600 text-sm"
       >
-        <div *ngIf="loginForm.get('email').errors?.['required']">
+        <div *ngIf="loginForm.get('email')?.errors?.['required']">
           Email is verplicht.
         </div>
-        <div *ngIf="loginForm.get('email').errors?.['email']">
+        <div *ngIf="loginForm.get('email')?.errors?.['email']">
           Ongeldig emailadres.
         </div>
       </div>
@@ -36,7 +36,7 @@
         "
         class="text-red-600 text-sm"
       >
-        <div *ngIf="loginForm.get('password').errors?.['required']">
+        <div *ngIf="loginForm.get('password')?.errors?.['required']">
           Wachtwoord is verplicht.
         </div>
       </div>

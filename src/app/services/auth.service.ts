@@ -1,9 +1,10 @@
-import { Injectable, inject } from '@angular/core'
+import { Injectable, inject, signal } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, from } from 'rxjs'
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { RegisterInterface } from '../models/register.interface';
 import { LoginInterface } from '../models/login.interface';
+import { UserInterface } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { LoginInterface } from '../models/login.interface';
 export class AuthService {
 
   firebaseAuth = inject(Auth);
-
+  user$ = user(this.firebaseAuth)
+  
   constructor (private http: HttpClient) {}
 
   login (model: LoginInterface): Observable<void> {
@@ -32,6 +34,7 @@ export class AuthService {
   }
 
   isAuthenticated (): boolean {
-    return !!this.firebaseAuth.currentUser;
+    console.log(this.firebaseAuth.currentUser);
+    return this.firebaseAuth.currentUser !== null;
   };
 }
