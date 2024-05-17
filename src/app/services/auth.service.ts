@@ -1,10 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, from } from 'rxjs'
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
+import { Auth, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { RegisterInterface } from '../models/register.interface';
 import { LoginInterface } from '../models/login.interface';
-import { UserInterface } from '../models/user.interface';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,13 @@ export class AuthService {
   
   constructor (private http: HttpClient) {}
 
-  login (model: LoginInterface): Observable<void> {
-    const promise = signInWithEmailAndPassword(this.firebaseAuth, model.email, model.password).then(() => {});
-    return from(promise);
+  login(model: LoginInterface): Observable<UserCredential> {
+    return from(signInWithEmailAndPassword(this.firebaseAuth, model.email, model.password)).pipe(
+      catchError((error) => {
+        console.error('Login error', error);
+        throw error;
+      })
+    );
   }
 
   register (model: RegisterInterface): Observable<void> {
@@ -34,7 +38,6 @@ export class AuthService {
   }
 
   isAuthenticated (): boolean {
-    console.log(this.firebaseAuth.currentUser);
     return this.firebaseAuth.currentUser !== null;
   };
 }

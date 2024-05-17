@@ -1,7 +1,6 @@
 <auth-wrapper>
   <h2 class="text-2xl font-bold mb-4">Inloggen</h2>
-  <app-loading *ngIf="loading" text="Ïnloggen"/>
-  <form *ngIf="!loading" [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4">
     <div>
       <label class="block text-sm font-medium">Email</label>
       <input
@@ -42,12 +41,11 @@
         </div>
       </div>
     </div>
-    <button
-      type="submit"
-      [disabled]="loginForm.invalid"
-      class="w-full bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary-800 focus:outline-none"
-    >
-      Inloggen
-    </button>
+
+    <app-loadingbutton
+    [buttonText]="'Inloggen'"
+    [loadingText]="'Inloggen'"
+    [form]="loginForm"
+    [submitForm]="login.bind(this)"/>
   </form>
 </auth-wrapper>

@@ -16,7 +16,6 @@ export class AdminComponent {
   ) {}
 
   logout() {
-    console.log(this.authService);
     this.authService.logout().subscribe(() => {
         this.router.navigate(['/login']);
     });

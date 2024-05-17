@@ -1,0 +1,14 @@
+<button
+  type="button"
+  [disabled]="form.invalid || isLoading"
+  (click)="onSubmit()"
+  class="w-full bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary-800 focus:outline-none mt-4"
+>
+  <ng-container *ngIf="!isLoading; else loadingTemplate">
+    {{ buttonText }}
+  </ng-container>
+  <ng-template #loadingTemplate>
+    {{ loadingText }}
+    <span class="loading-icon"></span> <!-- Voeg hier je laadicoon toe -->
+  </ng-template>
+</button>
