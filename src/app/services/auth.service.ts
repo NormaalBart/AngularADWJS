@@ -30,7 +30,7 @@ export class AuthService {
     .then((userCredential) => {
       updateProfile(userCredential.user, { displayName: model.displayName });
     });
-    return from(promise);
+    return from(promise)
   }
 
   logout (): Observable<void> {

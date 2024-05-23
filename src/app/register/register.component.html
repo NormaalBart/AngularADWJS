@@ -2,23 +2,6 @@
   <h2 class="text-2xl font-bold mb-4">Registreren</h2>
   <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-4">
     <div>
-      <label class="block text-sm font-medium">Naam</label>
-      <input
-        type="text"
-        formControlName="displayName"
-        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-      />
-      <div
-        *ngIf="
-          registerForm.get('displayName').invalid &&
-          registerForm.get('displayName').touched
-        "
-        class="text-red-600 text-sm"
-      >
-        Naam is verplicht.
-      </div>
-    </div>
-    <div>
       <label class="block text-sm font-medium">Email</label>
       <input
         type="email"
@@ -27,16 +10,14 @@
       />
       <div
         *ngIf="
-          registerForm.get('email') &&
-          registerForm.get('email').invalid &&
-          registerForm.get('email').touched
+          registerForm.get('email')?.invalid && registerForm.get('email')?.touched
         "
         class="text-red-600 text-sm"
       >
-        <div *ngIf="registerForm.get('email').errors?.['required']">
+        <div *ngIf="registerForm.get('email')?.errors?.['required']">
           Email is verplicht.
         </div>
-        <div *ngIf="registerForm.get('email').errors?.['email']">
+        <div *ngIf="registerForm.get('email')?.errors?.['email']">
           Ongeldig emailadres.
         </div>
       </div>
@@ -50,30 +31,21 @@
       />
       <div
         *ngIf="
-          registerForm.get('password') &&
-          registerForm.get('password').invalid &&
-          registerForm.get('password').touched
+          registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched
         "
         class="text-red-600 text-sm"
       >
-        <div *ngIf="registerForm.get('password').errors?.['required']">
+        <div *ngIf="registerForm.get('password')?.errors?.['required']">
           Wachtwoord is verplicht.
-        </div>
-        <div *ngIf="registerForm.get('password').errors?.['minlength']">
-          Wachtwoord moet minimaal 8 tekens lang zijn.
-        </div>
-        <div *ngIf="registerForm.get('password').errors?.['pattern']">
-          Wachtwoord moet ten minste één hoofdletter, één kleine letter en één
-          cijfer bevatten.
         </div>
       </div>
     </div>
-    <button
-      type="submit"
-      [disabled]="registerForm.invalid"
-      class="w-full bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary-800 focus:outline-none"
-    >
-      Registreren
-    </button>
+
+    <app-loadingbutton
+    [buttonText]="'Registreren'"
+    [loadingText]="'Registreren'"
+    [form]="registerForm"
+    [submitForm]="register.bind(this)"/>
   </form>
 </auth-wrapper>
