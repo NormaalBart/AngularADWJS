@@ -2,7 +2,7 @@
   <h2 class="text-2xl font-bold mb-4">Inloggen</h2>
   <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4">
     <div>
-      <label class="block text-sm font-medium">Email</label>
+      <label class="block text-sm font-medium">{{'email' | translate}}</label>
       <input
         type="email"
         formControlName="email"
@@ -43,8 +43,8 @@
     </div>
 
     <app-loadingbutton
-    [buttonText]="'Inloggen'"
-    [loadingText]="'Inloggen'"
+    [buttonText]="'login'"
+    [loadingText]="'login'"
     [form]="loginForm"
     [submitForm]="login.bind(this)"/>
   </form>

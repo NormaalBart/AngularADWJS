@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-loadingbutton',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './loadingbutton.component.html',
   styleUrls: ['./loadingbutton.component.css']
 })

@@ -10,12 +10,15 @@ import { AuthService } from './services/auth.service';
 import { LoadingComponent } from './layout/loading/loading.component';
 import { auditTime, debounceTime, delay } from 'rxjs';
 import { environment } from '../environments/environment';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterModule, CommonModule, ReactiveFormsModule, GuestComponent, AdminComponent, LoadingComponent],
-  templateUrl: './app.component.html'
+ templateUrl: './app.component.html'
 })
 export class AppComponent {
   readonly PageLayout = PageLayout;

@@ -8,11 +8,12 @@ import { AuthComponent } from '../auth/auth.component';
 import { LoadingbuttonComponent } from '../loadingbutton/loadingbutton.component';
 import { Observable, catchError, from } from 'rxjs';
 import { RegisterInterface } from '../models/register.interface';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AuthComponent, LoadingbuttonComponent],
+  imports: [CommonModule, ReactiveFormsModule, AuthComponent, LoadingbuttonComponent, TranslateModule],
   templateUrl: './register.component.html',
 })
 export class RegisterComponent  {
@@ -21,8 +22,7 @@ export class RegisterComponent  {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
-  ) {
+    private router: Router) {
     this.registerForm = this.fb.group({
       displayName: ['', Validators.required, Validators.minLength(3)],
       email: ['', [Validators.required, Validators.email]],
