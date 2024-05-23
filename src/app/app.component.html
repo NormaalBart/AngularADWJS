@@ -4,6 +4,11 @@
           <router-outlet />
       </admin-layout>
   }
+  @case (PageLayout.Loading) {
+        <loading-layout>
+            Laden... een moment
+        </loading-layout>
+  }
 
   @default {
       <guest-layout>

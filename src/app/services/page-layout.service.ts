@@ -1,33 +1,37 @@
-import { Injectable } from '@angular/core'
-import { Subject } from 'rxjs'
-import { PageLayout } from '../enums/pagelayout.enum'
-import { inject } from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  ResolveFn,
-  RouterStateSnapshot
-} from '@angular/router'
-import { AuthService } from './auth.service'
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, of, timer } from 'rxjs';
+import { PageLayout } from '../enums/pagelayout.enum';
+import { AuthService } from './auth.service';
+import { map, switchMap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PageLayoutService {
-  private authService = inject(AuthService)
-  private layoutSubject = new Subject<PageLayout>()
-  public layout$ = this.layoutSubject.asObservable()
 
-  calculateLayout () {
-    if (this.authService.isAuthenticated()) {
-      this.layoutSubject.next(PageLayout.Admin)
-    } else {
-      this.layoutSubject.next(PageLayout.Guest)
-    }
-  }
-}
+  private layoutSubject = new BehaviorSubject<PageLayout>(PageLayout.Loading);
+  public layout$ = this.layoutSubject.asObservable();
+  private isFirstEmission = true;
 
-export const setLayout = (): ResolveFn<void> => {
-  return (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) => {
-    inject(PageLayoutService).calculateLayout()
+  constructor(private authService: AuthService) {
+    this.authService.currentUserSignal
+      .pipe(
+        switchMap(user => {
+          if (this.isFirstEmission) {
+            this.isFirstEmission = false;
+            return timer(environment.loginDelay).pipe(map(() => user));
+          } else {
+            return of(user);
+          }
+        })
+      )
+      .subscribe(_ => {
+        if (this.authService.isAuthenticated()) {
+          this.layoutSubject.next(PageLayout.Admin);
+        } else {
+          this.layoutSubject.next(PageLayout.Guest);
+        }
+      });
   }
 }

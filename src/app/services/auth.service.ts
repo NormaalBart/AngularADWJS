@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, from } from 'rxjs'
-import { Auth, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
+import { BehaviorSubject, Observable, from } from 'rxjs'
+import { Auth, User, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { RegisterInterface } from '../models/register.interface';
 import { LoginInterface } from '../models/login.interface';
 import { catchError } from 'rxjs/operators';
@@ -11,11 +11,11 @@ import { catchError } from 'rxjs/operators';
 })
 export class AuthService {
 
-  firebaseAuth = inject(Auth);
-  user$ = user(this.firebaseAuth)
-  
-  constructor (private http: HttpClient) {}
+  user$ = user(this.firebaseAuth);
+  currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
 
+  constructor(private firebaseAuth: Auth) {}
+  
   login(model: LoginInterface): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.firebaseAuth, model.email, model.password)).pipe(
       catchError((error) => {

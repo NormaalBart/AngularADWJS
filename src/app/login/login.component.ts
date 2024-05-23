@@ -9,6 +9,7 @@ import { Observable, delay, from } from 'rxjs'
 import { LoadingbuttonComponent } from '../loadingbutton/loadingbutton.component'
 import { LoginInterface } from '../models/login.interface'
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment'
 
 @Component({
   selector: 'app-login',
@@ -44,12 +45,12 @@ export class LoginComponent {
       const { email, password } = this.loginForm.value;
       this.authService.login({ email, password } as LoginInterface).pipe(
         catchError((error) => {
-          resolve()
+          resolve();
           return [];
         })
       ).subscribe(() => {
-        this.router.navigate(['/']);
         resolve();
+        this.router.navigate(['/']);
       });
     }));
   }
