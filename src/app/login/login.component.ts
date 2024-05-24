@@ -10,11 +10,12 @@ import { LoadingbuttonComponent } from '../loadingbutton/loadingbutton.component
 import { LoginInterface } from '../models/login.interface'
 import { catchError } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core'
+import { ErrorFieldComponent } from '../error-field/error-field.component'
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, AuthComponent, LoadingbuttonComponent, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, AuthComponent, LoadingbuttonComponent, TranslateModule, ErrorFieldComponent],
   templateUrl: './login.component.html'
 })
 export class LoginComponent {

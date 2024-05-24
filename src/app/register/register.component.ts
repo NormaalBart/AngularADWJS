@@ -1,5 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -9,11 +9,13 @@ import { LoadingbuttonComponent } from '../loadingbutton/loadingbutton.component
 import { Observable, catchError, from } from 'rxjs';
 import { RegisterInterface } from '../models/register.interface';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ErrorFieldComponent } from '../error-field/error-field.component';
+import { containsDigit, containsUppercase } from '../validators/UtilValidator';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AuthComponent, LoadingbuttonComponent, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, AuthComponent, LoadingbuttonComponent, TranslateModule, ErrorFieldComponent],
   templateUrl: './register.component.html',
 })
 export class RegisterComponent  {
@@ -24,12 +26,13 @@ export class RegisterComponent  {
     private authService: AuthService,
     private router: Router) {
     this.registerForm = this.fb.group({
-      displayName: ['', Validators.required, Validators.minLength(3)],
+      displayName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
+        containsUppercase(),
+        containsDigit(),
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')
       ]]
     });
   }

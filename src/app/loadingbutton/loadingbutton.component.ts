@@ -40,7 +40,6 @@ export class LoadingbuttonComponent implements OnInit {
     this.setFormInputsDisabled(true);
 
     this.submitForm().subscribe(() => {
-      console.log('submitForm done')
       this.isLoading = false;
       this.setFormInputsDisabled(false);
     });

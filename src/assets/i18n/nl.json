@@ -9,8 +9,12 @@
     "logout": "Uitloggen",
     "projects": "Projecten",
     "new_project": "Nieuw project",
+    "go_back": "Terug",
     "input_errors": {
         "minlength":"Dit veld moet minimaal {{requiredLength}} karakters bevatten",
-        "required": "Dit is een verplicht veld"
+        "required": "Dit is een verplicht veld",
+        "email": "Dit is geen geldig e-mailadres",
+        "noUppercase": "Dit veld moet minimaal 1 hoofdletter bevatten",
+        "noDigit": "Dit veld moet minimaal 1 cijfer bevatten"
     }
 }
