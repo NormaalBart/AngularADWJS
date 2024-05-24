@@ -5,5 +5,9 @@
     "loading_data": "Data aan het laden...",
     "email": "E-mail",
     "password": "Wachtwoord",
-    "displayname": "Gebruikersnaam"
+    "displayname": "Gebruikersnaam",
+    "logout": "Uitloggen",
+    "projects": "Projecten",
+    "new_project": "Nieuw project",
+    "required": "Dit is een verplicht veld"
 }

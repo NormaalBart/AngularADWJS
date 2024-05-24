@@ -1,0 +1,17 @@
+<div class="flex flex-col items-center mb-4">
+    <div class="flex w-full m-1">
+        <h2 class="text-lg font-semibold">{{ "projects" | translate }}</h2>
+        <button title="{{'new_project' | translate}}" (click)="showCreateProjectModal = true" class="ml-auto rounded-full w-8 h-8 flex items-center justify-center bg-blue-500 hover:bg-blue-700 p-1">
+            <span class="text-white text-lg font-black">+</span>
+        </button>
+    </div>
+    
+    <hr class="w-full border-t-2 border-gray-300">
+  </div>
+  <ul class="space-y-2 flex-grow">
+    <li (click)="setActiveProject(project)" *ngFor="let project of projects$ | async" class="flex items-center bg-white p-1 rounded-md hover:bg-gray-300 cursor-pointer">
+      <p  class="text-gray-600 hover:text-gray-800 truncate">{{ project.name }}<p>
+    </li>
+  </ul>
+
+<app-create-project [showModal]="showCreateProjectModal" (showModalChange)="showCreateProjectModal = $event"></app-create-project>  

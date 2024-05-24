@@ -1,0 +1,14 @@
+<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" (click)="closeModal($event)">
+    <div class="bg-white p-8 rounded-lg shadow-md w-1/2" (click)="preventModalClose($event)">
+      <div class="flex justify-between">
+          <h2 class="text-lg font-semibold mb-4">Nieuw project aanmaken</h2>
+          <button (click)="closeModal()" class="text-black">&times;</button>
+      </div>
+      <form [formGroup]="createProjectForm" (ngSubmit)="addProject()">
+        <label class="block text-sm font-medium">Projectnaam</label>
+        <input type="text" formControlName="projectName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <p *ngFor="let error of createProjectForm.get('projectName')?.errors | keyvalue">{{ error.key | translate }}</p>
+        <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Aanmaken</button>
+      </form>
+    </div>
+</div>

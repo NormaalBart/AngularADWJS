@@ -9,7 +9,19 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        primary: '#B8E6FF',
+        primary: {
+          50: '#E3F7FF',
+          100: '#B8E6FF',
+          200: '#8FD4FF',
+          300: '#66C2FF',
+          400: '#3DB1FF',
+          500: '#14A0FF',
+          600: '#0084CC',
+          700: '#006699',
+          800: '#004966',
+          900: '#002C33',
+          DEFAULT: '#B8E6FF'
+        },        
         secondary: {
           50: '#f2f2fe',
           100: '#d9d7fd',
