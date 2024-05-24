@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ProjectSidebarComponent  {
 
-  @Output() showCreateProjectModal: boolean = false;
+  @Output() showCreateProjectModal: boolean = true;
 
   projects$: Observable<Project[]> = this.projectService.getProjects();
 
@@ -23,5 +23,10 @@ export class ProjectSidebarComponent  {
 
   setActiveProject(project: Project) {
     this.projectService.setActiveProject(project);
+  }
+  
+
+  isActiveProject(project: Project) {
+    return this.projectService.isActiveProject(project);
   }
 }

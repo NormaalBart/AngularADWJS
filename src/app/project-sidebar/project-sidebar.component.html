@@ -9,8 +9,8 @@
     <hr class="w-full border-t-2 border-gray-300">
   </div>
   <ul class="space-y-2 flex-grow">
-    <li (click)="setActiveProject(project)" *ngFor="let project of projects$ | async" class="flex items-center bg-white p-1 rounded-md hover:bg-gray-300 cursor-pointer">
-      <p  class="text-gray-600 hover:text-gray-800 truncate">{{ project.name }}<p>
+    <li (click)="setActiveProject(project)" *ngFor="let project of projects$ | async" class="flex items-center p-1 rounded-md cursor-pointer {{isActiveProject(project) ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white hover:bg-gray-300'}}">
+      <p  class="truncate">{{ project.name }}<p>
     </li>
   </ul>
 

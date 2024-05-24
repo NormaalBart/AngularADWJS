@@ -1,5 +1,4 @@
 import { Injectable, inject, signal } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, from } from 'rxjs'
 import { Auth, User, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { RegisterInterface } from '../models/register.interface';
@@ -28,7 +27,7 @@ export class AuthService {
   register (model: RegisterInterface): Observable<void> {
     const promise = createUserWithEmailAndPassword(this.firebaseAuth, model.email, model.password)
     .then((userCredential) => {
-      updateProfile(userCredential.user, { displayName: model.displayName });
+
     });
     return from(promise)
   }

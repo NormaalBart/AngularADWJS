@@ -1,0 +1,7 @@
+<div *ngIf="
+  inputField.invalid &&
+  inputField.touched
+" class="text-red-600 text-sm">
+    <p *ngFor="let error of inputField?.errors | keyvalue">{{ "input_errors." + error.key | translate: error.value
+        }}</p>
+</div>

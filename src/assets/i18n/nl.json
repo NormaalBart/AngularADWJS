@@ -9,5 +9,8 @@
     "logout": "Uitloggen",
     "projects": "Projecten",
     "new_project": "Nieuw project",
-    "required": "Dit is een verplicht veld"
+    "input_errors": {
+        "minlength":"Dit veld moet minimaal {{requiredLength}} karakters bevatten",
+        "required": "Dit is een verplicht veld"
+    }
 }

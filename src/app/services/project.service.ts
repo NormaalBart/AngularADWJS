@@ -31,4 +31,8 @@ export class ProjectService {
   clearActiveProject(): void {
     this.activeProject.next(null);
   }
+
+  isActiveProject(project: Project): boolean {
+    return this.activeProject.value === project;
+  }
 }

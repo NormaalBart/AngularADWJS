@@ -7,7 +7,7 @@
       <form [formGroup]="createProjectForm" (ngSubmit)="addProject()">
         <label class="block text-sm font-medium">Projectnaam</label>
         <input type="text" formControlName="projectName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <p *ngFor="let error of createProjectForm.get('projectName')?.errors | keyvalue">{{ error.key | translate }}</p>
+        <app-error-field [inputField]="createProjectForm.get('projectName')!"/>
         <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Aanmaken</button>
       </form>
     </div>
