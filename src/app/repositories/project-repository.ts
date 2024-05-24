@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Project } from '../models/project.interface';
 import { Observable, from } from 'rxjs';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc } from '@angular/fire/firestore';
-import { firebaseTables } from '../../environments/environment';
+import { firebaseTables } from '../../environments/global';
 
 @Injectable({
   providedIn: 'root'

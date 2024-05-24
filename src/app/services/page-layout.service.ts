@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, switchMap, tap, timer } from 'rxjs';
 import { PageLayout } from '../enums/pagelayout.enum';
 import { AuthService } from './auth.service';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/global';
 
 @Injectable({
   providedIn: 'root'
