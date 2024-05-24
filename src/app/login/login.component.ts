@@ -9,7 +9,6 @@ import { Observable, delay, from } from 'rxjs'
 import { LoadingbuttonComponent } from '../loadingbutton/loadingbutton.component'
 import { LoginInterface } from '../models/login.interface'
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment'
 import { TranslateModule } from '@ngx-translate/core'
 
 @Component({

@@ -9,7 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { LoadingComponent } from './layout/loading/loading.component';
 import { auditTime, debounceTime, delay } from 'rxjs';
-import { environment } from '../environments/environment';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
