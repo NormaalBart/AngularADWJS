@@ -13,3 +13,11 @@ export function containsDigit(): ValidatorFn {
         return hasDigit ? null : { noDigit: true };
     };
 }
+
+// Validator Function
+export function compareString(expected: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const isSame = control.value === expected;
+        return isSame ? null : { compareString: { expected: expected, given: control.value } };
+    };
+}

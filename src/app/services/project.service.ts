@@ -28,7 +28,7 @@ export class ProjectService {
   }
 
   deleteProject(id: string): Observable<void> {
-    const docRef = doc(this.projectsCollection, firebaseTables.projects + '/' + id);
+    const docRef = doc(this.projectsCollection, id);
     return from(deleteDoc(docRef));
   }
 

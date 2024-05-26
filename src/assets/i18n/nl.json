@@ -15,6 +15,7 @@
         "required": "Dit is een verplicht veld",
         "email": "Dit is geen geldig e-mailadres",
         "noUppercase": "Dit veld moet minimaal 1 hoofdletter bevatten",
-        "noDigit": "Dit veld moet minimaal 1 cijfer bevatten"
+        "noDigit": "Dit veld moet minimaal 1 cijfer bevatten",
+        "compareString": "De gegeven input komt niet overeen. Het moet '{{expected}}' zijn"
     }
 }

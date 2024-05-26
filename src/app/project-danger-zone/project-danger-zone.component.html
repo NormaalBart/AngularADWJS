@@ -1,22 +1,32 @@
-<h1 class="text-xl font-bold mb-2">Danger Zone</h1>
-<p class="mb-4">Wees voorzichtig met de acties die je hier kunt uitvoeren. Deze acties zijn onomkeerbaar.</p>
-
-<!-- Invite People Section -->
-<div class="bg-primary-500 p-4 rounded-md mb-6">
-    <h2 class="text-lg font-semibold">Mensen uitnodigen</h2>
-    <form class="mt-4">
-        <input type="email" placeholder="E-mailadres" class="p-2 rounded border shadow-sm w-full mb-3">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Uitnodigen
-        </button>
-    </form>
-</div>
+<h1 class="text-xl font-bold mb-4">Danger Zone</h1>
 
 <!-- Delete Project Section -->
-<div class="bg-red-600 p-4 rounded-md">
-    <h2 class="text-lg font-semibold">Project Verwijderen</h2>
-    <p class="mb-4">Let op: Het verwijderen van een project is permanent en kan niet ongedaan worden gemaakt.</p>
-    <button onclick="confirmDeletion()" class="bg-red-800 hover:bg-red-900 text-white font-bold py-2 px-4 rounded">
+<div class="p-4 rounded-lg shadow-lg border-2 border-red-500 bg-gray-100">
+    <h2 class="text-lg font-semibold text-red-700">Project Verwijderen</h2>
+    <p class="mb-4 text-red-600">Let op: Het verwijderen van een project is permanent en kan niet ongedaan worden
+        gemaakt.</p>
+
+    <form *ngIf="showConfirmationInput" [formGroup]="deleteForm" (ngSubmit)="deleteProject()">
+        <div class="flex items-center space-x-3">
+            <div class="max-w-60">
+                <input id="projectName" type="text" formControlName="projectName"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Voer de projectnaam in">
+            </div>
+
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                Verwijderen
+            </button>
+            <button (click)="showConfirmationInput = false; deleteForm.reset()"
+                class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded">
+                Annuleren
+            </button>
+        </div>
+        <app-error-field [inputField]="deleteForm.get('projectName')!" />
+    </form>
+
+    <button (click)="showConfirmationInput = true"
+        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" *ngIf="!showConfirmationInput">
         Project Verwijderen
     </button>
 </div>
