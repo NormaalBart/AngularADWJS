@@ -3,14 +3,16 @@ import { Component, OnInit, Output } from '@angular/core';
 import { CreateProjectComponent } from '../create-project/create-project.component';
 import { Project } from '../models/project.interface';
 import { ProjectService } from '../services/project.service';
-import { Observable } from 'rxjs';
+import { Observable, first } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarStatus } from '../enums/sidebar-status';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { pathNames } from '../../environments/global';
 
 @Component({
   selector: 'app-project-sidebar',
   standalone: true,
-  imports: [CommonModule, CreateProjectComponent, TranslateModule],
+  imports: [CommonModule, CreateProjectComponent, TranslateModule, RouterModule],
   templateUrl: './project-sidebar.component.html',
 })
 export class ProjectSidebarComponent implements OnInit {
@@ -22,19 +24,21 @@ export class ProjectSidebarComponent implements OnInit {
   projects$: Observable<Project[]> = this.projectService.getProjects();
   activeProject: Project | null = null;
 
-  constructor(private projectService: ProjectService) {}
+  constructor(private projectService: ProjectService, private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.projectService.activeProject.subscribe(project => {
       this.activeProject = project;
+      this.sidebarStatus = project ? SidebarStatus.ProjectDetails : SidebarStatus.Projects;
     });
   }
 
-  setActiveProject(project: Project) {
-    this.projectService.setActiveProject(project);
+  navigateToProject(project: Project) {
     this.sidebarStatus = SidebarStatus.ProjectDetails;
+    this.router.navigate([pathNames.projects.projectOverview(project.id)]);
   }
-  
+
 
   isActiveProject(project: Project) {
     return this.projectService.isActiveProject(project);

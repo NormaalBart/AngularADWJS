@@ -1,11 +1,13 @@
 <div class="flex flex-col items-center mb-4">
     <div class="flex w-full m-1">
-        <button *ngIf="sidebarStatus !== SidebarStatus.Projects" (click)="sidebarStatus = SidebarStatus.Projects"
-            title="{{'go_back' | translate}}"
-            class="mr-auto rounded-full w-8 h-8 flex items-center justify-center bg-blue-500 hover:bg-blue-700 p-1">
-            <span class="text-white text-lg font-black"> &#x2190;
-            </span>
-        </button>
+        <div class="mr-auto">
+            <button *ngIf="sidebarStatus !== SidebarStatus.Projects" (click)="sidebarStatus = SidebarStatus.Projects"
+                title="{{'go_back' | translate}}"
+                class="rounded-full w-8 h-8 flex items-center justify-center bg-blue-500 hover:bg-blue-700 p-1">
+                <span class="text-white text-lg font-black"> &#x2190;
+                </span>
+            </button>
+        </div>
 
         <h2 class="text-lg font-semibold truncate">
             {{ sidebarStatus === SidebarStatus.Projects ? ("projects" | translate) : (activeProject?.name) }}
@@ -17,13 +19,15 @@
     </div>
     <hr class="w-full border-t-2 border-gray-300">
 </div>
+
 <ul *ngIf="sidebarStatus === SidebarStatus.Projects" class="space-y-2 flex-grow">
-    <li (click)="setActiveProject(project)" *ngFor="let project of projects$ | async"
-        class="flex items-center p-1 rounded-md cursor-pointer {{isActiveProject(project) ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white hover:bg-gray-300'}}">
-        <p class="truncate">{{ project.name }}
-        <p>
+    <li (click)="navigateToProject(project)" *ngFor="let project of projects$ | async"
+        [ngClass]="{'bg-green-500 hover:bg-green-600 text-white': isActiveProject(project), 'bg-white hover:bg-gray-300': !isActiveProject(project)}"
+        class="flex items-center p-1 rounded-md cursor-pointer">
+        <p class="truncate">{{ project.name }}</p>
     </li>
 </ul>
+
 
 <ul *ngIf="sidebarStatus === SidebarStatus.ProjectDetails" class="space-y-2 flex-grow">
     <li
@@ -37,6 +41,10 @@
     <li
         class="flex items-center p-1 rounded-md cursor-pointer {{true ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white hover:bg-gray-300'}}">
         <p>Categorieën</p>
+    </li>
+    <li
+        class="flex items-center p-1 rounded-md cursor-pointer {{true ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-white hover:bg-gray-300'}}">
+        <p>Gevaren zone</p>
     </li>
 </ul>
 

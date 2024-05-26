@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ProjectRepository } from '../repositories/project-repository';
 import { Project } from '../models/project.interface';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, from, of } from 'rxjs';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, where } from '@angular/fire/firestore';
+import { firebaseTables } from '../../environments/global';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +11,24 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class ProjectService {
 
   public activeProject = new BehaviorSubject<Project | null>(null);
+  private projectsCollection = collection(this.firestore, firebaseTables.projects);
 
-  constructor(private projectRepository: ProjectRepository) { }
+  constructor(private firestore: Firestore, private authService: AuthService) { }
 
   getProjects(): Observable<Project[]> {
-    return this.projectRepository.getProjects();
+    const uid = this.authService.getUser()!.uid;
+    const accessibleProjectsQuery = query(this.projectsCollection, where('access', 'array-contains', uid));
+    return collectionData(accessibleProjectsQuery, { idField: 'id' }) as Observable<Project[]>;
   }
 
-  addProject(name: string): void {
-    this.projectRepository.addProject(name);
+  addProject(name: string): Observable<string> {
+    let user = this.authService.getUser()!;
+    return from(addDoc(this.projectsCollection, { name, archived: false, ownerId: user.uid, access: [user.uid] }).then(response => response.id));
   }
 
-  deleteProject(id: string): void {
-    this.projectRepository.deleteProject(id);
+  deleteProject(id: string): Observable<void> {
+    const docRef = doc(this.projectsCollection, firebaseTables.projects + '/' + id);
+    return from(deleteDoc(docRef));
   }
 
   setActiveProject(project: Project): void {

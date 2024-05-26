@@ -11,6 +11,7 @@ import { RegisterInterface } from '../models/register.interface';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ErrorFieldComponent } from '../error-field/error-field.component';
 import { containsDigit, containsUppercase } from '../validators/UtilValidator';
+import { pathNames } from '../../environments/global';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,7 @@ import { containsDigit, containsUppercase } from '../validators/UtilValidator';
   imports: [CommonModule, ReactiveFormsModule, AuthComponent, LoadingbuttonComponent, TranslateModule, ErrorFieldComponent],
   templateUrl: './register.component.html',
 })
-export class RegisterComponent  {
+export class RegisterComponent {
   @Output() registerForm: FormGroup
 
   constructor(
@@ -37,7 +38,7 @@ export class RegisterComponent  {
     });
   }
 
-  register() : Observable<void>{
+  register(): Observable<void> {
     return from(new Promise<void>(async (resolve) => {
       if (this.registerForm.invalid) {
         return resolve();
@@ -52,7 +53,7 @@ export class RegisterComponent  {
           })
         ).subscribe(() => {
           resolve();
-          this.router.navigate(['/']);
+          this.router.navigate([pathNames.projects.projects]);
         });
 
     }));

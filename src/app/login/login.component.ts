@@ -11,6 +11,7 @@ import { LoginInterface } from '../models/login.interface'
 import { catchError } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core'
 import { ErrorFieldComponent } from '../error-field/error-field.component'
+import { pathNames } from '../../environments/global'
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ import { ErrorFieldComponent } from '../error-field/error-field.component'
 export class LoginComponent {
   @Output() loginForm: FormGroup
 
-  constructor (
+  constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
@@ -51,7 +52,7 @@ export class LoginComponent {
         })
       ).subscribe(() => {
         resolve();
-        this.router.navigate(['/']);
+        this.router.navigate([pathNames.projects.projects]);
       });
     }));
   }

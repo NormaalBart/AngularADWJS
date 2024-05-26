@@ -1,9 +1,11 @@
-import { Injectable, inject, signal } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, from } from 'rxjs'
 import { Auth, User, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { RegisterInterface } from '../models/register.interface';
 import { LoginInterface } from '../models/login.interface';
 import { catchError } from 'rxjs/operators';
+import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { firebaseTables } from '../../environments/global';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,8 @@ export class AuthService {
   user$ = user(this.firebaseAuth);
   currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
 
-  constructor(private firebaseAuth: Auth) {}
-  
+  constructor(private firebaseAuth: Auth, private firestore: Firestore) { }
+
   login(model: LoginInterface): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.firebaseAuth, model.email, model.password)).pipe(
       catchError((error) => {
@@ -24,19 +26,21 @@ export class AuthService {
     );
   }
 
-  register (model: RegisterInterface): Observable<void> {
+  register(model: RegisterInterface): Observable<void> {
     const promise = createUserWithEmailAndPassword(this.firebaseAuth, model.email, model.password)
-    .then((userCredential) => {
-      //TODO? Register user in database
-    });
-    return from(promise)
+      .then((userCredential) => updateProfile(userCredential.user, { displayName: model.displayName }))
+    return from(promise);
   }
 
-  logout (): Observable<void> {
+  logout(): Observable<void> {
     return from(this.firebaseAuth.signOut());
   }
 
-  isAuthenticated (): boolean {
+  isAuthenticated(): boolean {
     return this.firebaseAuth.currentUser !== null;
   };
+
+  getUser(): User | null {
+    return this.firebaseAuth.currentUser;
+  }
 }
