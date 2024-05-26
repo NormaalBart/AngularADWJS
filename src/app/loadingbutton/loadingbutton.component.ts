@@ -13,14 +13,12 @@ import { Observable } from 'rxjs';
 })
 export class LoadingbuttonComponent implements OnInit {
 
+  isLoading: boolean = false;
+
   @Input() buttonText: string = 'Opslaan';
   @Input() loadingText: string = 'Laden';
   @Input() form!: FormGroup;
   @Input() submitForm!: () => Observable<void>;
-
-  isLoading: boolean = false;
-
-  constructor() {}
 
   ngOnInit(): void {
     if (!this.form) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Project } from '../models/project.interface';
 import { ProjectService } from '../services/project.service';
 import { CommonModule } from '@angular/common';
@@ -15,15 +15,13 @@ import { first } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
 
+  projectService = inject(ProjectService);
+  activeRoute = inject(ActivatedRoute);
+
   activeProject: Project | null = null;
 
-  constructor(
-    private projectService: ProjectService,
-    private route: ActivatedRoute
-  ) { }
-
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.activeRoute.params.subscribe(params => {
       const projectId = params['projectId'];
       if (projectId) {
         this.projectService.getProjects().pipe(first()).subscribe(projects => {

@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 import { LoginComponent } from './login/login.component'
 import { RegisterComponent } from './register/register.component'
 import { pathNames } from '../environments/global';
+import { ProjectDangerZoneComponent } from './project-danger-zone/project-danger-zone.component';
 
 export const routes: Routes = [
   {
@@ -32,7 +33,7 @@ export const routes: Routes = [
   },
   {
     path: pathNames.projects.projectDangerZone(':projectId'),
-    component: DashboardComponent,
+    component: ProjectDangerZoneComponent,
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => redirectUnauthorizedTo([pathNames.auth.login]) },
   },

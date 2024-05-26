@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { GuestComponent } from './layout/guest/guest.component'
 import { AdminComponent } from './layout/admin/admin.component'
@@ -17,14 +17,18 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-root',
   standalone: true,
   imports: [RouterModule, CommonModule, ReactiveFormsModule, GuestComponent, AdminComponent, LoadingComponent],
- templateUrl: './app.component.html'
+  templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   readonly PageLayout = PageLayout;
 
-  constructor(public authService: AuthService, public pageLayoutService: PageLayoutService) {
+  authService = inject(AuthService);
+  pageLayoutService = inject(PageLayoutService);
+
+  ngOnInit() {
     this.authService.user$
       .subscribe((user) => {
+        console.log('User changed', user);
         this.authService.currentUserSignal.next(user);
       });
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, inject } from '@angular/core';
 import { BehaviorSubject, Observable, filter, switchMap, tap, timer } from 'rxjs';
 import { PageLayout } from '../enums/pagelayout.enum';
 import { AuthService } from './auth.service';
@@ -9,10 +9,12 @@ import { environment } from '../../environments/global';
 })
 export class PageLayoutService {
 
+  authService = inject(AuthService);
+
   private layoutSubject = new BehaviorSubject<PageLayout>(PageLayout.Loading);
   public layout$ = this.layoutSubject.asObservable();
 
-  constructor(private authService: AuthService) {
+  constructor() {
     let isFirstAuthCheck = true;
     const started = Date.now();
     this.authService.currentUserSignal
@@ -26,8 +28,9 @@ export class PageLayoutService {
           } else {
             return timer(0);
           }
-        }),        
+        }),
         tap(() => {
+          console.log('Auth check done');
           isFirstAuthCheck = false;
           if (this.authService.isAuthenticated()) {
             this.layoutSubject.next(PageLayout.Admin);

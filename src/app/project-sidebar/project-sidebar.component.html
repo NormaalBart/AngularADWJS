@@ -20,33 +20,43 @@
     <hr class="w-full border-t-2 border-gray-300">
 </div>
 
-<ul *ngIf="sidebarStatus === SidebarStatus.Projects" class="space-y-2 flex-grow">
-    <li (click)="navigateToProject(project)" *ngFor="let project of projects$ | async"
-        [ngClass]="{'bg-green-500 hover:bg-green-600 text-white': isActiveProject(project), 'bg-white hover:bg-gray-300': !isActiveProject(project)}"
-        class="flex items-center p-1 rounded-md cursor-pointer">
+<!-- Aan het laden... bericht -->
+<div *ngIf="(currentProjects | async) === undefined">
+    Aan het laden...
+</div>
+
+<!-- Lijst met projecten -->
+<ul *ngIf="sidebarStatus === SidebarStatus.Projects && (currentProjects | async)" class="space-y-2 flex-grow">
+    <li *ngFor="let project of (currentProjects | async)" (click)="navigateToProject(project)" [ngClass]="{
+            'bg-primary-500 hover:bg-primary-600 text-white': isActiveProject(project),
+            'bg-white hover:bg-gray-300 text-black': !isActiveProject(project),
+        }" class="flex items-center p-1 rounded-md cursor-pointer">
         <p class="truncate">{{ project.name }}</p>
     </li>
 </ul>
 
-
-<ul *ngIf="sidebarStatus === SidebarStatus.ProjectDetails" class="space-y-2 flex-grow">
-    <li
-        class="flex items-center p-1 rounded-md cursor-pointer {{true ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white hover:bg-gray-300'}}">
-        <p>Overzicht</p>
+<!-- Project Details Navigation -->
+<ul *ngIf="sidebarStatus === SidebarStatus.ProjectDetails && activeProject" class="space-y-2 flex-grow">
+    <li [ngClass]="{
+        'bg-primary-500 hover:bg-primary-600 text-white': isActiveRoute(PathNames.projects.projectOverview(activeProject.id)),
+        'bg-white hover:bg-gray-300 text-black': !isActiveRoute(PathNames.projects.projectOverview(activeProject.id)),
+        }" class="flex items-center p-1 rounded-md cursor-pointer">
+        <a [routerLink]="PathNames.projects.projectOverview(activeProject.id)"
+            class="w-full h-full flex items-center justify-center">
+            <p>Overzicht</p>
+        </a>
     </li>
-    <li
-        class="flex items-center p-1 rounded-md cursor-pointer {{true ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white hover:bg-gray-300'}}">
-        <p>Uitnodigingen</p>
-    </li>
-    <li
-        class="flex items-center p-1 rounded-md cursor-pointer {{true ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white hover:bg-gray-300'}}">
-        <p>Categorieën</p>
-    </li>
-    <li
-        class="flex items-center p-1 rounded-md cursor-pointer {{true ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-white hover:bg-gray-300'}}">
-        <p>Gevaren zone</p>
+    <li [ngClass]="{
+        'bg-red-500 hover:bg-red-600 text-white': isActiveRoute(PathNames.projects.projectDangerZone(activeProject.id)),
+        'bg-white hover:bg-red-300 text-black': !isActiveRoute(PathNames.projects.projectDangerZone(activeProject.id)),
+        }" class="flex items-center p-1 rounded-md cursor-pointer">
+        <a [routerLink]="PathNames.projects.projectDangerZone(activeProject.id)"
+            class="w-full h-full flex items-center justify-center">
+            <p>Gevaren zone</p>
+        </a>
     </li>
 </ul>
+
 
 <app-create-project [showModal]="showCreateProjectModal"
     (showModalChange)="showCreateProjectModal = $event"></app-create-project>

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, inject } from '@angular/core';
 import { CreateProjectComponent } from '../create-project/create-project.component';
 import { Project } from '../models/project.interface';
 import { ProjectService } from '../services/project.service';
-import { Observable, first } from 'rxjs';
+import { BehaviorSubject, Observable, first } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarStatus } from '../enums/sidebar-status';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { pathNames } from '../../environments/global';
 
 @Component({
@@ -17,17 +17,22 @@ import { pathNames } from '../../environments/global';
 })
 export class ProjectSidebarComponent implements OnInit {
 
-  SidebarStatus = SidebarStatus;
+  readonly SidebarStatus = SidebarStatus;
+  readonly PathNames = pathNames;
 
-  @Output() showCreateProjectModal: boolean = false;
+  projectService = inject(ProjectService);
+  router = inject(Router);
+
   sidebarStatus = SidebarStatus.Projects;
-  projects$: Observable<Project[]> = this.projectService.getProjects();
+  currentProjects = new BehaviorSubject<Project[] | undefined>(undefined);
   activeProject: Project | null = null;
 
-  constructor(private projectService: ProjectService, private router: Router,
-    private route: ActivatedRoute) { }
+  @Output() showCreateProjectModal: boolean = false;
 
   ngOnInit() {
+    this.projectService.getProjects().subscribe(projects => {
+      this.currentProjects.next(projects);
+    });
     this.projectService.activeProject.subscribe(project => {
       this.activeProject = project;
       this.sidebarStatus = project ? SidebarStatus.ProjectDetails : SidebarStatus.Projects;
@@ -39,8 +44,12 @@ export class ProjectSidebarComponent implements OnInit {
     this.router.navigate([pathNames.projects.projectOverview(project.id)]);
   }
 
-
   isActiveProject(project: Project) {
     return this.projectService.isActiveProject(project);
   }
+
+  isActiveRoute(route: string) {
+    return this.router.url.includes(route);
+  }
 }
+

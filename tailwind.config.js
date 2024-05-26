@@ -5,6 +5,8 @@ module.exports = {
   ],
   safelist: [
     'bg-white',
+    'bg-green-500',
+    'hover:bg-green-600'
   ],
   theme: {
     extend: {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, inject } from '@angular/core'
 import { BehaviorSubject, Observable, from } from 'rxjs'
 import { Auth, User, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { RegisterInterface } from '../models/register.interface';
@@ -12,10 +12,11 @@ import { firebaseTables } from '../../environments/global';
 })
 export class AuthService {
 
+  firebaseAuth = inject(Auth);
+  firestore = inject(Firestore);
+
   user$ = user(this.firebaseAuth);
   currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
-
-  constructor(private firebaseAuth: Auth, private firestore: Firestore) { }
 
   login(model: LoginInterface): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.firebaseAuth, model.email, model.password)).pipe(

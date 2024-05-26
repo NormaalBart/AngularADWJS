@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core'
+import { Component, OnInit, Output, inject } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../services/auth.service'
 import { Router, RouterLink } from '@angular/router'
@@ -20,23 +20,20 @@ import { pathNames } from '../../environments/global'
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
-  @Output() loginForm: FormGroup
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-        ]
+  formBuilder = inject(FormBuilder);
+  authService = inject(AuthService);
+  router = inject(Router);
+
+  @Output() loginForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: [
+      '',
+      [
+        Validators.required,
       ]
-    })
-  }
+    ]
+  });
 
   login(): Observable<void> {
     return from(new Promise<void>(async (resolve) => {

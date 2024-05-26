@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Project } from '../models/project.interface';
 import { BehaviorSubject, Observable, catchError, from, of } from 'rxjs';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, where } from '@angular/fire/firestore';
@@ -10,10 +10,11 @@ import { AuthService } from './auth.service';
 })
 export class ProjectService {
 
-  public activeProject = new BehaviorSubject<Project | null>(null);
-  private projectsCollection = collection(this.firestore, firebaseTables.projects);
+  firestore = inject(Firestore);
+  authService = inject(AuthService);
 
-  constructor(private firestore: Firestore, private authService: AuthService) { }
+  activeProject = new BehaviorSubject<Project | null>(null);
+  private projectsCollection = collection(this.firestore, firebaseTables.projects);
 
   getProjects(): Observable<Project[]> {
     const uid = this.authService.getUser()!.uid;
@@ -40,6 +41,6 @@ export class ProjectService {
   }
 
   isActiveProject(project: Project): boolean {
-    return this.activeProject.value === project;
+    return this.activeProject.value?.id === project.id;
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,10 +16,8 @@ import { pathNames } from '../../../environments/global';
 })
 export class AdminComponent {
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-  ) { }
+  router = inject(Router);
+  authService = inject(AuthService);
 
   logout() {
     this.authService.logout().subscribe(() => {
