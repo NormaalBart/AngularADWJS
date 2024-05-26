@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ProjectService } from '../services/project.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ErrorFieldComponent } from '../error-field/error-field.component';
+import { MessageService } from '../services/mesasge.service';
+import { MessageType } from '../models/message.interface';
 
 @Component({
   selector: 'app-create-project',
@@ -14,6 +16,7 @@ import { ErrorFieldComponent } from '../error-field/error-field.component';
 export class CreateProjectComponent {
 
   formBuilder = inject(FormBuilder);
+  messageservice = inject(MessageService);
   projectService = inject(ProjectService);
 
   createProjectForm = this.formBuilder.group({
@@ -39,8 +42,9 @@ export class CreateProjectComponent {
       return;
     }
     const { projectName } = this.createProjectForm.value;
-    this.projectService.addProject(projectName!);
-    this.closeModal(undefined);
+    this.projectService.addProject(projectName!).subscribe(() => {
+      this.messageservice.addMessage({ type: MessageType.Success, title: 'Project aangemaakt', description: `$projectName is aangemaakt` });
+      this.closeModal(undefined);
+    });
   }
-
 }

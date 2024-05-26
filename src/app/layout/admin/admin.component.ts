@@ -10,11 +10,12 @@ import { pathNames } from '../../../environments/global';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.interface';
 import { first } from 'rxjs';
+import { MessageComponent } from '../../message/message.component';
 
 @Component({
   selector: 'admin-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, ReactiveFormsModule, CreateProjectComponent, ProjectSidebarComponent],
+  imports: [CommonModule, RouterModule, TranslateModule, ReactiveFormsModule, CreateProjectComponent, ProjectSidebarComponent, MessageComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -26,7 +27,7 @@ export class AdminComponent implements OnInit {
   activeRoute = inject(ActivatedRoute);
 
   private projects: Project[] | undefined = undefined;
-  private projectId: string | undefined = undefined;
+  private projectId: string | null | undefined = undefined;
 
   isLoading = true;
 
@@ -42,6 +43,9 @@ export class AdminComponent implements OnInit {
 
     this.activeRoute.firstChild.params.subscribe(params => {
       this.projectId = params['projectId'];
+      if (this.projectId == undefined) {
+        this.projectId = null;
+      }
       this.checkActiveProject();
     });
   }

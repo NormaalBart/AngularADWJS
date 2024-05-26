@@ -11,6 +11,8 @@ import { ErrorFieldComponent } from '../error-field/error-field.component';
 import { Observable, from } from 'rxjs';
 import { Router } from '@angular/router';
 import { pathNames } from '../../environments/global';
+import { MessageService } from '../services/mesasge.service';
+import { Message, MessageType } from '../models/message.interface';
 
 @Component({
   selector: 'app-project-danger-zone',
@@ -23,6 +25,7 @@ export class ProjectDangerZoneComponent implements OnInit {
   projectService = inject(ProjectService);
   formBuilder = inject(FormBuilder);
   router = inject(Router);
+  messageService = inject(MessageService);
 
   activeProject: Project | null | undefined;
   showConfirmationInput: boolean = false;
@@ -59,6 +62,12 @@ export class ProjectDangerZoneComponent implements OnInit {
 
       this.projectService.deleteProject(this.activeProject!.id).subscribe(() => {
         resolve();
+        this.messageService.addMessage({
+          type: MessageType.Warning,
+          title: 'Project verwijderd',
+          description: `{{this.activeProject?.name} verwijderd.}} is verwijderd`
+        } as Message);
+
         this.router.navigate([pathNames.projects.projects])
       });
     }));

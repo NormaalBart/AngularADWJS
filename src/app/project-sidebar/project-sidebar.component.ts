@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SidebarStatus } from '../enums/sidebar-status';
 import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { pathNames } from '../../environments/global';
+import { MessageService } from '../services/mesasge.service';
 
 @Component({
   selector: 'app-project-sidebar',

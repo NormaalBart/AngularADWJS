@@ -5,6 +5,7 @@ export const firebaseTables = {
 
 export const environment = {
   authCheckDelay: 0,
+  messageTime: 5000,
 }
 
 export const pathNames = {

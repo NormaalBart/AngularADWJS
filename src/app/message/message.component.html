@@ -1,0 +1,9 @@
+<!-- message.component.html -->
+<div *ngFor="let message of messages" [ngClass]="{
+    'bg-green-200 text-green-800': message.type === 'success',
+    'bg-blue-200 text-blue-800': message.type === 'information',
+    'bg-yellow-200 text-yellow-800': message.type === 'warning'
+  }" class="fixed top-4 right-4 mb-4 p-4 rounded-lg shadow-lg z-50">
+    <h4 class="font-bold">{{ message.title }}</h4>
+    <p>{{ message.description }}</p>
+</div>
