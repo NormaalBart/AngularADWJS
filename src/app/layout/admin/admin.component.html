@@ -10,8 +10,17 @@
 
   <main class="flex-grow flex flex-row p-4 gap-4">
     <div class="w-1/6 bg-gray-100 p-3 rounded-xl">
-        <app-project-sidebar/>
+      <!-- Laad spinner -->
+      <div *ngIf="isLoading" class="flex justify-center items-center">
+        <div class="spinner"></div>
+      </div>
+      <app-project-sidebar *ngIf="!isLoading"></app-project-sidebar>
     </div>
-    <div class="w-5/6 bg-gray-100 p-3 rounded-xl"> <ng-content /> </div>
+    <div class="w-5/6 bg-gray-100 p-3 rounded-xl">
+      <div *ngIf="isLoading" class="flex justify-center items-center">
+        <div class="spinner"></div>
+      </div>
+      <ng-content *ngIf="!isLoading"></ng-content>
+    </div>
   </main>
 </div>

@@ -16,23 +16,10 @@ import { first } from 'rxjs';
 export class DashboardComponent implements OnInit {
 
   projectService = inject(ProjectService);
-  activeRoute = inject(ActivatedRoute);
 
-  activeProject: Project | null = null;
+  activeProject: Project | null | undefined;
 
   ngOnInit() {
-    this.activeRoute.params.subscribe(params => {
-      const projectId = params['projectId'];
-      if (projectId) {
-        this.projectService.getProjects().pipe(first()).subscribe(projects => {
-          const project = projects.find(p => p.id === projectId);
-          if (project) {
-            this.projectService.setActiveProject(project);
-          }
-        });
-      }
-    });
-
     this.projectService.activeProject.subscribe(project => {
       this.activeProject = project;
     });

@@ -20,14 +20,9 @@
     <hr class="w-full border-t-2 border-gray-300">
 </div>
 
-<!-- Aan het laden... bericht -->
-<div *ngIf="(currentProjects | async) === undefined">
-    Aan het laden...
-</div>
-
 <!-- Lijst met projecten -->
-<ul *ngIf="sidebarStatus === SidebarStatus.Projects && (currentProjects | async)" class="space-y-2 flex-grow">
-    <li *ngFor="let project of (currentProjects | async)" (click)="navigateToProject(project)" [ngClass]="{
+<ul *ngIf="sidebarStatus === SidebarStatus.Projects" class="space-y-2 flex-grow">
+    <li *ngFor="let project of projects" (click)="navigateToProject(project)" [ngClass]="{
             'bg-primary-500 hover:bg-primary-600 text-white': isActiveProject(project),
             'bg-white hover:bg-gray-300 text-black': !isActiveProject(project),
         }" class="flex items-center p-1 rounded-md cursor-pointer">

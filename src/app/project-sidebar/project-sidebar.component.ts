@@ -24,15 +24,16 @@ export class ProjectSidebarComponent implements OnInit {
   router = inject(Router);
 
   sidebarStatus = SidebarStatus.Projects;
-  currentProjects = new BehaviorSubject<Project[] | undefined>(undefined);
-  activeProject: Project | null = null;
+  projects: Project[] = [];
+  activeProject: Project | null | undefined;
 
   @Output() showCreateProjectModal: boolean = false;
 
   ngOnInit() {
     this.projectService.getProjects().subscribe(projects => {
-      this.currentProjects.next(projects);
+      this.projects = projects;
     });
+
     this.projectService.activeProject.subscribe(project => {
       this.activeProject = project;
       this.sidebarStatus = project ? SidebarStatus.ProjectDetails : SidebarStatus.Projects;
@@ -40,8 +41,8 @@ export class ProjectSidebarComponent implements OnInit {
   }
 
   navigateToProject(project: Project) {
-    this.sidebarStatus = SidebarStatus.ProjectDetails;
     this.router.navigate([pathNames.projects.projectOverview(project.id)]);
+    this.projectService.setActiveProject(project);
   }
 
   isActiveProject(project: Project) {

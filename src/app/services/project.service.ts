@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, OnInit, inject } from '@angular/core';
 import { Project } from '../models/project.interface';
 import { BehaviorSubject, Observable, catchError, from, of } from 'rxjs';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, where } from '@angular/fire/firestore';
@@ -13,7 +13,7 @@ export class ProjectService {
   firestore = inject(Firestore);
   authService = inject(AuthService);
 
-  activeProject = new BehaviorSubject<Project | null>(null);
+  activeProject = new BehaviorSubject<Project | null | undefined>(undefined);
   private projectsCollection = collection(this.firestore, firebaseTables.projects);
 
   getProjects(): Observable<Project[]> {
@@ -32,7 +32,7 @@ export class ProjectService {
     return from(deleteDoc(docRef));
   }
 
-  setActiveProject(project: Project): void {
+  setActiveProject(project: Project | null): void {
     this.activeProject.next(project);
   }
 

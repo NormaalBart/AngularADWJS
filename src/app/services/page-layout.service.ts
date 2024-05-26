@@ -30,7 +30,6 @@ export class PageLayoutService {
           }
         }),
         tap(() => {
-          console.log('Auth check done');
           isFirstAuthCheck = false;
           if (this.authService.isAuthenticated()) {
             this.layoutSubject.next(PageLayout.Admin);
