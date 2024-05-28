@@ -1,8 +1,16 @@
 <h1 class="text-xl font-bold mb-4">Danger Zone</h1>
 
-<div *ngIf="activeProject$ | async as activeProject" class="grid grid-cols-2">
-    <app-project-danger-zone-danger-action [title]="'dangerzone.archive.title'"
-        [buttonText]="'dangerzone.archive.button'" [submitForm]="this.archiveProject.bind(this, activeProject)" />
-    <app-project-danger-zone-danger-action [title]="'dangerzone.delete.title'" [warning]="'dangerzone.delete.warning'"
-        [buttonText]="'dangerzone.delete.button'" [submitForm]="this.deleteProject.bind(this, activeProject)" />
+<div *ngIf="activeProject$ | async as activeProject">
+    <div class="p-4 rounded-lg shadow-lg border-2 border-gray-500 bg-gray-100 m-2">
+        <h2 class="text-lg font-semibold text-black">{{'dangerzone.collaborators.title' | translate}}</h2>
+
+    </div>
+
+    <div class="grid grid-cols-2">
+        <app-project-danger-zone-danger-action [title]="'dangerzone.archive.title'"
+            [buttonText]="'dangerzone.archive.button'" [submitForm]="this.archiveProject.bind(this, activeProject)" />
+        <app-project-danger-zone-danger-action [title]="'dangerzone.delete.title'"
+            [warning]="'dangerzone.delete.warning'" [buttonText]="'dangerzone.delete.button'"
+            [submitForm]="this.deleteProject.bind(this, activeProject)" />
+    </div>
 </div>
