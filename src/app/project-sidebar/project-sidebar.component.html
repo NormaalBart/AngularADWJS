@@ -1,67 +1,68 @@
-<div *ngIf="activeProject$ | async as activeProject">
-    <div class="flex flex-col items-center mb-4">
-        <div class="flex w-full m-1">
-            <div class="mr-auto">
-                <button *ngIf="sidebarStatus !== SidebarStatus.Projects"
-                    (click)="sidebarStatus = SidebarStatus.Projects" title="{{'go_back' | translate}}"
-                    class="rounded-full w-8 h-8 flex items-center justify-center bg-blue-500 hover:bg-blue-700 p-1">
-                    <span class="text-white text-lg font-black"> &#x2190;
-                    </span>
-                </button>
-            </div>
-
-            <h2 class="text-lg font-semibold truncate">
-                {{ sidebarStatus === SidebarStatus.Projects ? ("projects" | translate) : (activeProject?.name) }}
-            </h2>
-            <button title="{{'new_project' | translate}}" (click)="showCreateProjectModal = true"
-                class="ml-auto rounded-full w-8 h-8 flex items-center justify-center bg-blue-500 hover:bg-blue-700 p-1">
-                <span class="text-white text-lg font-black">+</span>
+<div class="flex flex-col items-center mb-4">
+    <div class="flex w-full m-1">
+        <div class="mr-auto">
+            <button *ngIf="sidebarStatus !== SidebarStatus.Projects" (click)="sidebarStatus = SidebarStatus.Projects"
+                title="{{'go_back' | translate}}"
+                class="rounded-full w-8 h-8 flex items-center justify-center bg-blue-500 hover:bg-blue-700 p-1">
+                <span class="text-white text-lg font-black"> &#x2190;
+                </span>
             </button>
         </div>
-        <hr class="w-full border-t-2 border-gray-300">
+
+        <h2 class="text-lg font-semibold truncate">
+            {{ sidebarStatus === SidebarStatus.Projects ? ("projects" | translate) : (activeProject$ | async)?.name }}
+        </h2>
+
+        <button title="{{'new_project' | translate}}" (click)="showCreateProjectModal = true"
+            class="ml-auto rounded-full w-8 h-8 flex items-center justify-center bg-blue-500 hover:bg-blue-700 p-1">
+            <span class="text-white text-lg font-black">+</span>
+        </button>
+    </div>
+    <hr class="w-full border-t-2 border-gray-300">
+</div>
+
+<!-- Lijst met projecten -->
+<ul *ngIf="sidebarStatus === SidebarStatus.Projects" class="space-y-2 flex-grow">
+    <div class="mb-4">
+        <select id="project-filter" [(ngModel)]="filter" (change)="onFilterChange($event)"
+            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+            <option value="active">{{'project_sidebar.active_projects' | translate}}</option>
+            <option value="archived">{{'project_sidebar.archived_projects' | translate}}</option>
+        </select>
     </div>
 
-    <!-- Lijst met projecten -->
-    <ul *ngIf="sidebarStatus === SidebarStatus.Projects" class="space-y-2 flex-grow">
-        <div class="mb-4">
-            <select id="project-filter" [(ngModel)]="filter" (change)="onFilterChange($event)"
-                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                <option value="active">{{'project_sidebar.active_projects' | translate}}</option>
-                <option value="archived">{{'project_sidebar.archived_projects' | translate}}</option>
-            </select>
-        </div>
-
-        <li *ngFor="let project of filteredProjects$ | async" (click)="navigateToProject(project)" [ngClass]="{
+    <li *ngFor="let project of filteredProjects$ | async" (click)="navigateToProject(project)" [ngClass]="{
                 'bg-primary-500 hover:bg-primary-600 text-white': isActiveProject(project) && !project.archived,
                 'bg-white hover:bg-gray-300 text-black': !isActiveProject(project) && !project.archived,
                 'bg-gray-200 text-gray-500': project.archived,
             }" class="flex items-center p-1 rounded-md cursor-pointer">
-            <p class="truncate">{{ project.name }}</p>
-        </li>
-    </ul>
+        <p class="truncate">{{ project.name }}</p>
+    </li>
+</ul>
 
-    <!-- Project Details Navigation -->
-    <ul *ngIf="sidebarStatus === SidebarStatus.ProjectDetails && activeProject" class="space-y-2 flex-grow">
-        <li [ngClass]="{
+<!-- Project Details Navigation -->
+<ul *ngIf="sidebarStatus === SidebarStatus.ProjectDetails && (activeProject$ | async) as activeProject"
+    class="space-y-2 flex-grow">
+    <li [ngClass]="{
             'bg-primary-500 hover:bg-primary-600 text-white': isActiveRoute(PathNames.projects.projectOverview(activeProject.id)),
             'bg-white hover:bg-gray-300 text-black': !isActiveRoute(PathNames.projects.projectOverview(activeProject.id)),
             }" class="flex items-center p-1 rounded-md cursor-pointer">
-            <a [routerLink]="PathNames.projects.projectOverview(activeProject.id)"
-                class="w-full h-full flex items-center justify-center">
-                <p>Overzicht</p>
-            </a>
-        </li>
-        <li [ngClass]="{
+        <a [routerLink]="PathNames.projects.projectOverview(activeProject.id)"
+            class="w-full h-full flex items-center justify-center">
+            <p>Overzicht</p>
+        </a>
+    </li>
+    <li [ngClass]="{
             'bg-red-500 hover:bg-red-600 text-white': isActiveRoute(PathNames.projects.projectDangerZone(activeProject.id)),
             'bg-white hover:bg-red-300 text-black': !isActiveRoute(PathNames.projects.projectDangerZone(activeProject.id)),
             }" class="flex items-center p-1 rounded-md cursor-pointer">
-            <a [routerLink]="PathNames.projects.projectDangerZone(activeProject.id)"
-                class="w-full h-full flex items-center justify-center">
-                <p>Gevaren zone</p>
-            </a>
-        </li>
-    </ul>
-</div>
+        <a [routerLink]="PathNames.projects.projectDangerZone(activeProject.id)"
+            class="w-full h-full flex items-center justify-center">
+            <p>Gevaren zone</p>
+        </a>
+    </li>
+</ul>
+
 
 
 <app-create-project [showModal]="showCreateProjectModal"
