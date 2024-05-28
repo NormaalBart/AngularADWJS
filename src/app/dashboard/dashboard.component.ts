@@ -1,27 +1,38 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { Project } from '../models/project.interface';
+import { Component, inject } from '@angular/core';
 import { ProjectService } from '../services/project.service';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateProjectComponent } from '../create-project/create-project.component';
-import { ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs';
+import { Project } from '../models/project.interface';
+import { DangerActionComponent } from '../project-danger-zone/danger-action/project-danger-zone-danger-action';
+import { Observable, from } from 'rxjs';
+import { MessageService } from '../services/mesasge.service';
+import { Message, MessageType } from '../models/message.interface';
 
 @Component({
   standalone: true,
   selector: 'app-dashboard',
-  imports: [CommonModule, ReactiveFormsModule, CreateProjectComponent],
+  imports: [CommonModule, CreateProjectComponent, DangerActionComponent],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
   projectService = inject(ProjectService);
+  messageService = inject(MessageService);
 
-  activeProject: Project | null | undefined;
+  activeProject$ = this.projectService.activeProject$;
 
-  ngOnInit() {
-    this.projectService.activeProject$.subscribe(project => {
-      this.activeProject = project;
-    });
+  unarchiveProject(project: Project): Observable<void> {
+    return from(new Promise<void>(async (resolve) => {
+      this.projectService.setArchiveProject(project.id, false).subscribe(() => {
+        resolve();
+        this.messageService.addMessage({
+          type: MessageType.Warning,
+          translateKey: 'project.unarchived',
+          params: {
+            projectName: project.name
+          }
+        } as Message);
+      });
+    }));
   }
 }

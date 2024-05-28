@@ -21,30 +21,41 @@ import { DangerActionComponent } from './danger-action/project-danger-zone-dange
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingbuttonComponent, ErrorFieldComponent, DangerActionComponent],
   templateUrl: './project-danger-zone.component.html',
 })
-export class ProjectDangerZoneComponent implements OnInit {
+export class ProjectDangerZoneComponent {
 
   projectService = inject(ProjectService);
   formBuilder = inject(FormBuilder);
   router = inject(Router);
   messageService = inject(MessageService);
 
-  activeProject: Project | null | undefined;
+  activeProject$ = this.projectService.activeProject$;
 
-  ngOnInit() {
-    this.projectService.activeProject$.subscribe(project => {
-      this.activeProject = project;
-    });
-  }
-
-  deleteProject(): Observable<void> {
+  deleteProject(project: Project): Observable<void> {
     return from(new Promise<void>(async (resolve) => {
-      this.projectService.deleteProject(this.activeProject!.id).subscribe(() => {
+      this.projectService.deleteProject(project.id).subscribe(() => {
         resolve();
         this.messageService.addMessage({
           type: MessageType.Warning,
           translateKey: 'project.delete',
           params: {
-            projectName: this.activeProject!.name
+            projectName: project.name
+          }
+        } as Message);
+
+        this.router.navigate([pathNames.projects.projects])
+      });
+    }));
+  }
+
+  archiveProject(project: Project): Observable<void> {
+    return from(new Promise<void>(async (resolve) => {
+      this.projectService.setArchiveProject(project.id, true).subscribe(() => {
+        resolve();
+        this.messageService.addMessage({
+          type: MessageType.Warning,
+          translateKey: 'project.archive',
+          params: {
+            projectName: project.name
           }
         } as Message);
 

@@ -3,5 +3,6 @@ export interface Project {
     name: string;
     ownerId: string,
     access: string[],
+    archived: boolean;
   }
   

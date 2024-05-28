@@ -6,6 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ErrorFieldComponent } from '../error-field/error-field.component';
 import { MessageService } from '../services/mesasge.service';
 import { MessageType } from '../models/message.interface';
+import { Router } from '@angular/router';
+import { pathNames } from '../../environments/global';
 
 @Component({
   selector: 'app-create-project',
@@ -18,6 +20,7 @@ export class CreateProjectComponent {
   formBuilder = inject(FormBuilder);
   messageservice = inject(MessageService);
   projectService = inject(ProjectService);
+  router = inject(Router);
 
   createProjectForm = this.formBuilder.group({
     projectName: ['', [Validators.required, Validators.minLength(3)]]
@@ -43,10 +46,11 @@ export class CreateProjectComponent {
       return;
     }
     const projectName = this.createProjectForm.value.projectName!;
-    this.projectService.addProject(projectName).subscribe(() => {
+    this.projectService.addProject(projectName).subscribe(projectId => {
       this.messageservice.addMessage({ type: MessageType.Success, translateKey: 'project.created', params: { projectName }});
       this.closeModal(undefined);
       this.createProjectForm.reset();
+      this.router.navigate([pathNames.projects.projectOverview(projectId)]);
     });
   }
 }

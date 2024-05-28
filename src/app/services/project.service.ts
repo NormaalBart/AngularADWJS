@@ -1,7 +1,7 @@
 import { Injectable, OnInit, inject } from '@angular/core';
 import { Project } from '../models/project.interface';
 import { BehaviorSubject, Observable, catchError, from, of } from 'rxjs';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { firebaseTables } from '../../environments/global';
 import { AuthService } from './auth.service';
 
@@ -34,6 +34,11 @@ export class ProjectService {
   deleteProject(id: string): Observable<void> {
     const docRef = doc(this.projectsCollection, id);
     return from(deleteDoc(docRef));
+  }
+
+  setArchiveProject(id: string, archived: boolean): Observable<void> {
+    const docRef = doc(this.projectsCollection, id);
+    return from(updateDoc(docRef, { archived }));
   }
 
   setActiveProject(project: Project | null): void {

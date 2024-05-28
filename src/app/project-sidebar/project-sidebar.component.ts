@@ -3,17 +3,18 @@ import { Component, OnInit, Output, inject } from '@angular/core';
 import { CreateProjectComponent } from '../create-project/create-project.component';
 import { Project } from '../models/project.interface';
 import { ProjectService } from '../services/project.service';
-import { BehaviorSubject, Observable, first } from 'rxjs';
+import { BehaviorSubject, Observable, first, map, startWith } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarStatus } from '../enums/sidebar-status';
 import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { pathNames } from '../../environments/global';
 import { MessageService } from '../services/mesasge.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-project-sidebar',
   standalone: true,
-  imports: [CommonModule, CreateProjectComponent, TranslateModule, RouterModule],
+  imports: [CommonModule, FormsModule, CreateProjectComponent, TranslateModule, RouterModule],
   templateUrl: './project-sidebar.component.html',
 })
 export class ProjectSidebarComponent implements OnInit {
@@ -26,13 +27,17 @@ export class ProjectSidebarComponent implements OnInit {
 
   sidebarStatus = SidebarStatus.Projects;
   projects$ = this.projectService.projects$;
-  activeProject: Project | null | undefined;
+  activeProject$ = this.projectService.activeProject$;
+  filter = 'active';
+  filteredProjects$ = this.projects$.pipe(
+    startWith([]),
+    map(projects => this.filterProjects(projects, this.filter))
+  );
 
   @Output() showCreateProjectModal: boolean = false;
 
   ngOnInit() {
     this.projectService.activeProject$.subscribe(project => {
-      this.activeProject = project;
       this.sidebarStatus = project ? SidebarStatus.ProjectDetails : SidebarStatus.Projects;
     });
   }
@@ -48,6 +53,23 @@ export class ProjectSidebarComponent implements OnInit {
 
   isActiveRoute(route: string) {
     return this.router.url.includes(route);
+  }
+
+  onFilterChange(event: Event) {
+    const filter = (event.target as HTMLSelectElement).value;
+    this.filter = filter;
+    this.filteredProjects$ = this.projects$.pipe(
+      map(projects => this.filterProjects(projects, filter))
+    );
+  }
+
+  filterProjects(projects: Project[], filter: string): Project[] {
+    if (filter === 'active') {
+      return projects.filter(project => !project.archived);
+    } else if (filter === 'archived') {
+      return projects.filter(project => project.archived);
+    }
+    return projects;
   }
 }
 

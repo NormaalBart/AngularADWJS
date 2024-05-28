@@ -57,8 +57,22 @@
             },
             "deleted": {
                 "title": "Project verwijderd",
-                "description": "{{projectName}} is succesvol verwijderd"
+                "description": "{{projectName}} is suc,cesvol verwijderd"
+            },
+            "unarchived": {
+                "title": "Project hersteld",
+                "description": "{{projectName}} is succesvol hersteld"
             }
         }
+    },
+    "dashboard": {
+        "unarchive": {
+            "title": "Dit project is gearchiveerd, wilt u het herstellen?",
+            "button": "Project herstellen"
+        }
+    },
+    "project_sidebar": {
+        "active_projects": "Actieve projecten",
+        "archived_projects": "Gearchiveerde projecten"
     }
 }
