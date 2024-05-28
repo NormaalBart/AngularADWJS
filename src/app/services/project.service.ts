@@ -1,6 +1,6 @@
 import { Injectable, OnInit, inject } from '@angular/core';
 import { Project } from '../models/project.interface';
-import { BehaviorSubject, Observable, catchError, from, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, from, of, switchMap } from 'rxjs';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { firebaseTables } from '../../environments/global';
 import { AuthService } from './auth.service';
@@ -15,22 +15,20 @@ export class ProjectService {
 
   private projectsCollection = collection(this.firestore, firebaseTables.projects);
 
-  projects$ = this.getProjects();
+  projects$ = this.authService.currentFirebaseUser$.pipe(
+    switchMap(user => {
+      if (!user) {
+        return of([] as Project[]);
+      }
+
+      const uid = user.uid;
+      const accessibleProjectsQuery = query(this.projectsCollection, where('access', 'array-contains', uid));
+      return collectionData(accessibleProjectsQuery, { idField: 'id' }) as Observable<Project[]>;
+    })
+  );
 
   private activeProjectSubject = new BehaviorSubject<Project | null | undefined>(undefined);
   activeProject$ = this.activeProjectSubject.asObservable();
-
-  private getProjects(): Observable<Project[]> {
-    const user = this.authService.getUser();
-    if (!user) {
-      return of([] as Project[]);
-    }
-
-    const uid = user.uid;
-    const accessibleProjectsQuery = query(this.projectsCollection, where('access', 'array-contains', uid));
-    return collectionData(accessibleProjectsQuery, { idField: 'id' }) as Observable<Project[]>;
-  }
-
 
   addProject(name: string): Observable<string> {
     let user = this.authService.getUser()!;
