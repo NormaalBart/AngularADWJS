@@ -12,6 +12,8 @@ import { catchError } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core'
 import { ErrorFieldComponent } from '../error-field/error-field.component'
 import { pathNames } from '../../environments/global'
+import { MessageService } from '../services/mesasge.service'
+import { MessageType } from '../models/message.interface'
 
 @Component({
   selector: 'app-login',
@@ -23,6 +25,7 @@ export class LoginComponent {
 
   formBuilder = inject(FormBuilder);
   authService = inject(AuthService);
+  messageService = inject(MessageService);
   router = inject(Router);
 
   @Output() loginForm = this.formBuilder.group({
@@ -50,6 +53,7 @@ export class LoginComponent {
       ).subscribe(() => {
         resolve();
         this.router.navigate([pathNames.projects.projects]);
+        this.messageService.addMessage({ type: MessageType.Success, translateKey: 'auth.login' });
       });
     }));
   }

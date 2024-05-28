@@ -11,11 +11,13 @@ import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.interface';
 import { first } from 'rxjs';
 import { MessageComponent } from '../../message/message.component';
+import { MessageType } from '../../models/message.interface';
+import { MessageService } from '../../services/mesasge.service';
 
 @Component({
   selector: 'admin-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, ReactiveFormsModule, CreateProjectComponent, ProjectSidebarComponent, MessageComponent],
+  imports: [CommonModule, RouterModule, TranslateModule, ReactiveFormsModule, CreateProjectComponent, ProjectSidebarComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -24,17 +26,20 @@ export class AdminComponent implements OnInit {
   router = inject(Router);
   authService = inject(AuthService);
   projectService = inject(ProjectService);
+  messageService = inject(MessageService);
   activeRoute = inject(ActivatedRoute);
 
-  private projects: Project[] | undefined = undefined;
-  private projectId: string | null | undefined = undefined;
+  projects$ = this.projectService.projects$;
 
   isLoading = true;
 
   ngOnInit() {
-    this.projectService.getProjects().subscribe(projects => {
-      this.projects = projects;
-      this.checkActiveProject();
+    let projects: Project[] | undefined = undefined;
+    let projectId: string | null | undefined = undefined;
+
+    this.projects$.subscribe(newProjects => {
+      projects = newProjects;
+      this.checkActiveProject(projects, projectId);
     });
 
     if (this.activeRoute.firstChild === null) {
@@ -42,20 +47,20 @@ export class AdminComponent implements OnInit {
     }
 
     this.activeRoute.firstChild.params.subscribe(params => {
-      this.projectId = params['projectId'];
-      if (this.projectId == undefined) {
-        this.projectId = null;
+      projectId = params['projectId'];
+      if (projectId == undefined) {
+        projectId = null;
       }
-      this.checkActiveProject();
+      this.checkActiveProject(projects, projectId);
     });
   }
 
-  private checkActiveProject() {
-    if (this.projects === undefined || this.projectId === undefined) {
+  private checkActiveProject(projects: Project[] | undefined, projectId: string | null | undefined) {
+    if (projects === undefined || projectId === undefined) {
       return;
     }
 
-    let project = this.projects.find(project => project.id === this.projectId);
+    let project = projects.find(project => project.id === projectId);
     if (project) {
       this.projectService.setActiveProject(project);
     } else {
@@ -68,6 +73,10 @@ export class AdminComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe(() => {
       this.router.navigate([pathNames.auth.login]);
+    });
+    this.messageService.addMessage({
+      type: MessageType.Information,
+      translateKey: 'auth.logout'
     });
   }
 }

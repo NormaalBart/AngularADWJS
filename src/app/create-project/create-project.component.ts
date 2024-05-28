@@ -30,6 +30,7 @@ export class CreateProjectComponent {
     if (!event || event.target === event.currentTarget) {
       this.showModalChange.emit(false);
       this.showModal = false;
+      this.createProjectForm.reset();
     }
   }
 
@@ -41,10 +42,11 @@ export class CreateProjectComponent {
     if (this.createProjectForm.invalid) {
       return;
     }
-    const { projectName } = this.createProjectForm.value;
-    this.projectService.addProject(projectName!).subscribe(() => {
-      this.messageservice.addMessage({ type: MessageType.Success, title: 'Project aangemaakt', description: `$projectName is aangemaakt` });
+    const projectName = this.createProjectForm.value.projectName!;
+    this.projectService.addProject(projectName).subscribe(() => {
+      this.messageservice.addMessage({ type: MessageType.Success, translateKey: 'project.created', params: { projectName }});
       this.closeModal(undefined);
+      this.createProjectForm.reset();
     });
   }
 }

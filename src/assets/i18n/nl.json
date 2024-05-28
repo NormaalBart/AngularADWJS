@@ -17,5 +17,48 @@
         "noUppercase": "Dit veld moet minimaal 1 hoofdletter bevatten",
         "noDigit": "Dit veld moet minimaal 1 cijfer bevatten",
         "compareString": "De gegeven input komt niet overeen. Het moet '{{expected}}' zijn"
+    },
+    "dangerzone": {
+        "archive": {
+            "title": "Weet u zeker dat u het project wilt archiveren?",
+            "button": "Project archiveren"
+        },
+        "delete": {
+            "title": "Weet u zeker dat u het project wilt verwijderen?",
+            "button": "Project verwijderen",
+            "warning": "Dit kan niet ongedaan worden gemaakt!"
+        },
+        "enter_project_name": "Voer de projectnaam in"
+    },
+    "cancel": "Annuleren",
+    "messages": {
+        "auth": {
+            "login": {
+                "title": "U bent succesvol ingelogd",
+                "description": "U wordt nu doorgestuurd naar de projectenpagina"
+            },
+            "register": {
+                "title": "U bent succesvol geregistreerd",
+                "description": "U kunt nu inloggen"
+            },
+            "logout": {
+                "title": "U bent succesvol uitgelogd",
+                "description": "U wordt nu doorgestuurd naar de inlogpagina"
+            }
+        },
+        "project": {
+            "created": {
+                "title": "Project aangemaakt",
+                "description": "{{projectName}} is succesvol aangemaakt"
+            },
+            "archived": {
+                "title": "Project gearchiveerd",
+                "description": "{{projectName}} is succesvol gearchiveerd"
+            },
+            "deleted": {
+                "title": "Project verwijderd",
+                "description": "{{projectName}} is succesvol verwijderd"
+            }
+        }
     }
 }

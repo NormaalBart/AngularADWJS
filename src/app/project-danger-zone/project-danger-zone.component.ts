@@ -13,11 +13,12 @@ import { Router } from '@angular/router';
 import { pathNames } from '../../environments/global';
 import { MessageService } from '../services/mesasge.service';
 import { Message, MessageType } from '../models/message.interface';
+import { DangerActionComponent } from './danger-action/project-danger-zone-danger-action';
 
 @Component({
   selector: 'app-project-danger-zone',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingbuttonComponent, ErrorFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingbuttonComponent, ErrorFieldComponent, DangerActionComponent],
   templateUrl: './project-danger-zone.component.html',
 })
 export class ProjectDangerZoneComponent implements OnInit {
@@ -28,44 +29,23 @@ export class ProjectDangerZoneComponent implements OnInit {
   messageService = inject(MessageService);
 
   activeProject: Project | null | undefined;
-  showConfirmationInput: boolean = false;
-  projectTitleInput: string = '';
-
-
-  @Output() deleteForm = this.formBuilder.group({
-    projectName: ['', [Validators.required]],
-  });
-
 
   ngOnInit() {
     this.projectService.activeProject$.subscribe(project => {
       this.activeProject = project;
-      this.deleteForm.get('projectName')?.setValidators([Validators.required, compareString(project?.name ?? '')]);
     });
-
-  }
-
-  checkProjectTitle(): void {
-    if (this.projectTitleInput === this.activeProject?.name) {
-      this.deleteProject();
-    } else {
-      alert('De ingevoerde titel is incorrect.');
-      this.projectTitleInput = ''; // Reset de invoer
-    }
   }
 
   deleteProject(): Observable<void> {
     return from(new Promise<void>(async (resolve) => {
-      if (this.deleteForm.invalid) {
-        return resolve();
-      }
-
       this.projectService.deleteProject(this.activeProject!.id).subscribe(() => {
         resolve();
         this.messageService.addMessage({
           type: MessageType.Warning,
-          title: 'Project verwijderd',
-          description: `{{this.activeProject?.name} verwijderd.}} is verwijderd`
+          translateKey: 'project.delete',
+          params: {
+            projectName: this.activeProject!.name
+          }
         } as Message);
 
         this.router.navigate([pathNames.projects.projects])

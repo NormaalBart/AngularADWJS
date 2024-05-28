@@ -25,16 +25,12 @@ export class ProjectSidebarComponent implements OnInit {
   router = inject(Router);
 
   sidebarStatus = SidebarStatus.Projects;
-  projects: Project[] = [];
+  projects$ = this.projectService.projects$;
   activeProject: Project | null | undefined;
 
   @Output() showCreateProjectModal: boolean = false;
 
   ngOnInit() {
-    this.projectService.getProjects().subscribe(projects => {
-      this.projects = projects;
-    });
-
     this.projectService.activeProject$.subscribe(project => {
       this.activeProject = project;
       this.sidebarStatus = project ? SidebarStatus.ProjectDetails : SidebarStatus.Projects;

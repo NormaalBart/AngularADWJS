@@ -1,7 +1,7 @@
 export interface Message {
     type: MessageType;
-    title: string;
-    description: string;
+    translateKey: string;
+    params?: { [key: string]: string };
   }
   
   export enum MessageType {

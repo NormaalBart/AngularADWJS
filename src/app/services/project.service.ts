@@ -13,11 +13,14 @@ export class ProjectService {
   firestore = inject(Firestore);
   authService = inject(AuthService);
 
-  private activeProjectSubject = new BehaviorSubject<Project | null | undefined>(undefined);
-  activeProject$ = this.activeProjectSubject.asObservable();
   private projectsCollection = collection(this.firestore, firebaseTables.projects);
 
-  getProjects(): Observable<Project[]> {
+  projects$ = this.getProjects();
+
+  private activeProjectSubject = new BehaviorSubject<Project | null | undefined>(undefined);
+  activeProject$ = this.activeProjectSubject.asObservable();
+
+  private getProjects(): Observable<Project[]> {
     const uid = this.authService.getUser()!.uid;
     const accessibleProjectsQuery = query(this.projectsCollection, where('access', 'array-contains', uid));
     return collectionData(accessibleProjectsQuery, { idField: 'id' }) as Observable<Project[]>;

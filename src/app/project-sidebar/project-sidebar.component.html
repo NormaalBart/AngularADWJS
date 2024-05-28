@@ -22,7 +22,7 @@
 
 <!-- Lijst met projecten -->
 <ul *ngIf="sidebarStatus === SidebarStatus.Projects" class="space-y-2 flex-grow">
-    <li *ngFor="let project of projects" (click)="navigateToProject(project)" [ngClass]="{
+    <li *ngFor="let project of projects$ | async" (click)="navigateToProject(project)" [ngClass]="{
             'bg-primary-500 hover:bg-primary-600 text-white': isActiveProject(project),
             'bg-white hover:bg-gray-300 text-black': !isActiveProject(project),
         }" class="flex items-center p-1 rounded-md cursor-pointer">

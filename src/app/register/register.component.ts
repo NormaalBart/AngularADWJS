@@ -12,6 +12,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ErrorFieldComponent } from '../error-field/error-field.component';
 import { containsDigit, containsUppercase } from '../validators/UtilValidator';
 import { pathNames } from '../../environments/global';
+import { MessageType } from '../models/message.interface';
+import { MessageService } from '../services/mesasge.service';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +24,7 @@ import { pathNames } from '../../environments/global';
 export class RegisterComponent {
 
   formBuilder = inject(FormBuilder);
+  messageService = inject(MessageService);
   authService = inject(AuthService);
   router = inject(Router);
 
@@ -52,6 +55,7 @@ export class RegisterComponent {
         ).subscribe(() => {
           resolve();
           this.router.navigate([pathNames.projects.projects]);
+          this.messageService.addMessage({ type: MessageType.Success, translateKey: 'auth.register' });
         });
 
     }));

@@ -12,11 +12,12 @@ import { auditTime, debounceTime, delay } from 'rxjs';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { MessageComponent } from './message/message.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, CommonModule, ReactiveFormsModule, GuestComponent, AdminComponent, LoadingComponent],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, GuestComponent, AdminComponent, LoadingComponent, MessageComponent],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
