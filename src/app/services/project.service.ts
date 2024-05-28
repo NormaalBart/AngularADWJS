@@ -21,10 +21,16 @@ export class ProjectService {
   activeProject$ = this.activeProjectSubject.asObservable();
 
   private getProjects(): Observable<Project[]> {
-    const uid = this.authService.getUser()!.uid;
+    const user = this.authService.getUser();
+    if (!user) {
+      return of([] as Project[]);
+    }
+
+    const uid = user.uid;
     const accessibleProjectsQuery = query(this.projectsCollection, where('access', 'array-contains', uid));
     return collectionData(accessibleProjectsQuery, { idField: 'id' }) as Observable<Project[]>;
   }
+
 
   addProject(name: string): Observable<string> {
     let user = this.authService.getUser()!;
