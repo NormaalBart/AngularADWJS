@@ -10,7 +10,7 @@ import { environment } from '../../environments/global';
 export class MessageService {
 
   private messagesSubject = new BehaviorSubject<Message[]>([]);
-  messages$: Observable<Message[]> = this.messagesSubject.asObservable();
+  messages$ = this.messagesSubject.asObservable();
 
   addMessage(message: Message): void {
     const currentMessages = this.messagesSubject.value;

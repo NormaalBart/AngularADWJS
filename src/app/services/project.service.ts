@@ -13,7 +13,8 @@ export class ProjectService {
   firestore = inject(Firestore);
   authService = inject(AuthService);
 
-  activeProject = new BehaviorSubject<Project | null | undefined>(undefined);
+  private activeProjectSubject = new BehaviorSubject<Project | null | undefined>(undefined);
+  activeProject$ = this.activeProjectSubject.asObservable();
   private projectsCollection = collection(this.firestore, firebaseTables.projects);
 
   getProjects(): Observable<Project[]> {
@@ -33,14 +34,14 @@ export class ProjectService {
   }
 
   setActiveProject(project: Project | null): void {
-    this.activeProject.next(project);
+    this.activeProjectSubject.next(project);
   }
 
   clearActiveProject(): void {
-    this.activeProject.next(null);
+    this.activeProjectSubject.next(null);
   }
 
   isActiveProject(project: Project): boolean {
-    return this.activeProject.value?.id === project.id;
+    return this.activeProjectSubject.value?.id === project.id;
   }
 }

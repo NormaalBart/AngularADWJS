@@ -38,7 +38,7 @@ export class ProjectDangerZoneComponent implements OnInit {
 
 
   ngOnInit() {
-    this.projectService.activeProject.subscribe(project => {
+    this.projectService.activeProject$.subscribe(project => {
       this.activeProject = project;
       this.deleteForm.get('projectName')?.setValidators([Validators.required, compareString(project?.name ?? '')]);
     });

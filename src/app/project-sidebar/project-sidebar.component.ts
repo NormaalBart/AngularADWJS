@@ -35,7 +35,7 @@ export class ProjectSidebarComponent implements OnInit {
       this.projects = projects;
     });
 
-    this.projectService.activeProject.subscribe(project => {
+    this.projectService.activeProject$.subscribe(project => {
       this.activeProject = project;
       this.sidebarStatus = project ? SidebarStatus.ProjectDetails : SidebarStatus.Projects;
     });

@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   activeProject: Project | null | undefined;
 
   ngOnInit() {
-    this.projectService.activeProject.subscribe(project => {
+    this.projectService.activeProject$.subscribe(project => {
       this.activeProject = project;
     });
   }

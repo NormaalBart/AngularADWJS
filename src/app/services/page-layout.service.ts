@@ -9,15 +9,15 @@ import { environment } from '../../environments/global';
 })
 export class PageLayoutService {
 
-  authService = inject(AuthService);
+  private authService = inject(AuthService);
 
   private layoutSubject = new BehaviorSubject<PageLayout>(PageLayout.Loading);
-  public layout$ = this.layoutSubject.asObservable();
+  layout$ = this.layoutSubject.asObservable();
 
   constructor() {
     let isFirstAuthCheck = true;
     const started = Date.now();
-    this.authService.currentUserSignal
+    this.authService.currentUser$
       .pipe(
         filter(user => user !== undefined),
         switchMap(_ => {

@@ -26,9 +26,9 @@ export class AppComponent implements OnInit {
   pageLayoutService = inject(PageLayoutService);
 
   ngOnInit() {
-    this.authService.user$
+    this.authService.currentFirebaseUser$
       .subscribe((user) => {
-        this.authService.currentUserSignal.next(user);
+        this.authService.setUser(user);
       });
   }
 }

@@ -15,8 +15,9 @@ export class AuthService {
   firebaseAuth = inject(Auth);
   firestore = inject(Firestore);
 
-  user$ = user(this.firebaseAuth);
-  currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
+  currentFirebaseUser$ = user(this.firebaseAuth);
+  private currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
+  currentUser$ = this.currentUserSignal.asObservable();
 
   login(model: LoginInterface): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.firebaseAuth, model.email, model.password)).pipe(
@@ -43,5 +44,9 @@ export class AuthService {
 
   getUser(): User | null {
     return this.firebaseAuth.currentUser;
+  }
+
+  setUser(user: User | null) {
+    this.currentUserSignal.next(user);
   }
 }
