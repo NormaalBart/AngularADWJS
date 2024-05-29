@@ -15,7 +15,7 @@ export class AuthService {
   firebaseAuth = inject(Auth);
   firestore = inject(Firestore);
 
-  currentFirebaseUser$ = user(this.firebaseAuth);
+  private currentFirebaseUser$ = user(this.firebaseAuth);
   private currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
   currentUser$ = this.currentUserSignal.asObservable();
 

@@ -20,16 +20,8 @@ import { MessageComponent } from './message/message.component';
   imports: [RouterModule, CommonModule, ReactiveFormsModule, GuestComponent, AdminComponent, LoadingComponent, MessageComponent],
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   readonly PageLayout = PageLayout;
 
-  authService = inject(AuthService);
   pageLayoutService = inject(PageLayoutService);
-
-  ngOnInit() {
-    this.authService.currentFirebaseUser$
-      .subscribe((user) => {
-        this.authService.setUser(user);
-      });
-  }
 }

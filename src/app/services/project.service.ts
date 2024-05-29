@@ -15,7 +15,7 @@ export class ProjectService {
 
   private projectsCollection = collection(this.firestore, firebaseTables.projects);
 
-  projects$ = this.authService.currentFirebaseUser$.pipe(
+  projects$ = this.authService.currentUser$.pipe(
     switchMap(user => {
       if (!user) {
         return of([] as Project[]);
