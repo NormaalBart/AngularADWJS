@@ -1,6 +1,7 @@
 export const firebaseTables = {
   projects: 'projects',
   users: 'users',
+  invites: 'invites',
 }
 
 export const environment = {

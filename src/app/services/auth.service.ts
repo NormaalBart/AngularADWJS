@@ -6,7 +6,8 @@ import { LoginInterface } from '../models/login.interface';
 import { catchError, switchMap } from 'rxjs/operators';
 import { Firestore, addDoc, collection, doc, getDoc, getDocs, setDoc, where } from '@angular/fire/firestore';
 import { firebaseTables } from '../../environments/global';
-import { UserInterface } from '../models/user.interface';
+import { User } from '../models/user.class';
+import { InviteService } from './invite.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,10 @@ export class AuthService {
 
   firebaseAuth = inject(Auth);
   firestore = inject(Firestore);
+  inviteService = inject(InviteService);
 
   private currentFirebaseUser$ = user(this.firebaseAuth);
-  private currentUserSignal = new BehaviorSubject<UserInterface | null | undefined>(undefined);
+  private currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
   currentUser$ = this.currentUserSignal.asObservable();
 
   private usersCollection = collection(this.firestore, firebaseTables.users);
@@ -31,8 +33,11 @@ export class AuthService {
 
       getDoc(doc(this.usersCollection, user.uid)).then(userDoc => {
         if (userDoc.exists()) {
-          const userData = userDoc.data() as UserInterface;
+          const userData: User = new User(user.uid, userDoc.data()['displayName'], userDoc.data()['email']);
           this.currentUserSignal.next(userData);
+          this.inviteService.getInvitesForUser(userData.id).subscribe(invites => {
+            userData.setInvites(invites);
+          });
         } else {
           this.currentUserSignal.next(null);
         }
@@ -57,12 +62,11 @@ export class AuthService {
 
     return from(createUserPromise).pipe(
       switchMap((userCredential: UserCredential) => {
-        const userDocData: UserInterface = {
-          id: userCredential.user.uid,
-          displayName: model.displayName,
-          email: model.email,
-          invites: []
-        };
+        const userDocData: User = new User(
+          userCredential.user.uid,
+          model.displayName,
+          model.email,
+        );
         return from(setDoc(doc(this.usersCollection, userCredential.user.uid), userDocData));
       }));
   }
@@ -75,7 +79,7 @@ export class AuthService {
     return this.firebaseAuth.currentUser !== null;
   }
 
-  setUser(user: UserInterface | null) {
+  setUser(user: User | null) {
     this.currentUserSignal.next(user);
   }
 }

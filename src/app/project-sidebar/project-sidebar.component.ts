@@ -10,6 +10,8 @@ import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular
 import { pathNames } from '../../environments/global';
 import { MessageService } from '../services/mesasge.service';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-project-sidebar',
@@ -23,8 +25,10 @@ export class ProjectSidebarComponent implements OnInit {
   readonly PathNames = pathNames;
 
   projectService = inject(ProjectService);
+  authService = inject(AuthService);
   router = inject(Router);
 
+  user$ = this.authService.currentUser$;
   sidebarStatus = SidebarStatus.Projects;
   projects$ = this.projectService.projects$;
   activeProject$ = this.projectService.activeProject$;

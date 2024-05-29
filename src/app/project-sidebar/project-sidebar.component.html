@@ -21,6 +21,20 @@
     <hr class="w-full border-t-2 border-gray-300">
 </div>
 
+<div *ngIf="user$ | async as user">
+    <div *ngIf="user.invites$ | async as invites">
+        <div *ngIf="invites.length !== 0">
+            <h3>Invites:</h3>
+            <ul>
+                <li *ngFor="let invite of invites">
+                    {{ invite.userId }} - {{ invite.projectName }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
 <!-- Lijst met projecten -->
 <ul *ngIf="sidebarStatus === SidebarStatus.Projects" class="space-y-2 flex-grow">
     <div class="mb-4">

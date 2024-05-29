@@ -1,4 +1,4 @@
-export interface Message {
+export interface MessageInterface {
     type: MessageType;
     translateKey: string;
     params?: { [key: string]: string };

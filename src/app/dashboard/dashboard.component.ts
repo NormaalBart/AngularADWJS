@@ -6,7 +6,7 @@ import { Project } from '../models/project.interface';
 import { DangerActionComponent } from '../project-danger-zone/danger-action/project-danger-zone-danger-action';
 import { Observable, from } from 'rxjs';
 import { MessageService } from '../services/mesasge.service';
-import { Message, MessageType } from '../models/message.interface';
+import { MessageInterface, MessageType } from '../models/message.interface';
 
 @Component({
   standalone: true,
@@ -31,7 +31,7 @@ export class DashboardComponent {
           params: {
             projectName: project.name
           }
-        } as Message);
+        } as MessageInterface);
       });
     }));
   }

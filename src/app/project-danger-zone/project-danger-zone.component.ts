@@ -12,7 +12,7 @@ import { Observable, from } from 'rxjs';
 import { Router } from '@angular/router';
 import { pathNames } from '../../environments/global';
 import { MessageService } from '../services/mesasge.service';
-import { Message, MessageType } from '../models/message.interface';
+import { MessageInterface, MessageType } from '../models/message.interface';
 import { DangerActionComponent } from './danger-action/project-danger-zone-danger-action';
 import { CollaboratorsComponent } from './collaborators/collaborators';
 
@@ -41,7 +41,7 @@ export class ProjectDangerZoneComponent {
           params: {
             projectName: project.name
           }
-        } as Message);
+        } as MessageInterface);
 
         this.router.navigate([pathNames.projects.projects])
       });
@@ -58,7 +58,7 @@ export class ProjectDangerZoneComponent {
           params: {
             projectName: project.name
           }
-        } as Message);
+        } as MessageInterface);
 
         this.router.navigate([pathNames.projects.projects])
       });

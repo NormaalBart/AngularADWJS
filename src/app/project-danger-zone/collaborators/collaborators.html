@@ -4,9 +4,22 @@
 
     <div *ngFor="let user of users$ | async">
         <p>
-            <strong>Display Name:</strong> {{ user.displayName }}<br>
-            <strong>Email:</strong> {{ user.email }}
+            <span *ngIf="user.id === currentProject.ownerId">
+                <i class="fas fa-crown" aria-hidden="true"></i>
+            </span>
+            {{ user.displayName}} ({{ user.email }})
         </p>
     </div>
 
+    <div class="mt-4">
+        <form [formGroup]="inviteForm" (ngSubmit)="inviteUser(currentProject)">
+            <label for="email" class="block text-gray-700">{{'dangerzone.collaborators.invite-by-email' |
+                translate}}</label>
+            <input formControlName="email" id="email" type="email" class="mt-1 block w-full border rounded-md p-2"
+                placeholder="{{'dangerzone.collaborators.email-placeholder' | translate}}">
+            <app-loadingbutton [buttonText]="'dangerzone.collaborators.invite-button'"
+                [loadingText]="'dangerzone.collaborators.invite-button'" [form]="inviteForm"
+                [submitForm]="inviteUser.bind(this, currentProject)" />
+        </form>
+    </div>
 </div>
