@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core'
+import { Injectable, OnInit, inject } from '@angular/core'
 import { BehaviorSubject, Observable, from } from 'rxjs'
 import { Auth, User, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { RegisterInterface } from '../models/register.interface';
@@ -19,6 +19,14 @@ export class AuthService {
   private currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
   currentUser$ = this.currentUserSignal.asObservable();
 
+  private usersCollection = collection(this.firestore, firebaseTables.users);
+
+  constructor() {
+    this.currentFirebaseUser$.subscribe(user => {
+      this.currentUserSignal.next(user);
+    });
+  }
+
   login(model: LoginInterface): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.firebaseAuth, model.email, model.password)).pipe(
       catchError((error) => {
@@ -28,9 +36,11 @@ export class AuthService {
     );
   }
 
-  register(model: RegisterInterface): Observable<void> {
+  register(model: RegisterInterface): Observable<string> {
     const promise = createUserWithEmailAndPassword(this.firebaseAuth, model.email, model.password)
-      .then((userCredential) => updateProfile(userCredential.user, { displayName: model.displayName }))
+      .then((userCredential) => {
+        return addDoc(this.usersCollection, { id: userCredential.user.uid, displayName: model.displayName, email: model.email, invites: [] }).then(() => userCredential.user.uid);
+      })
     return from(promise);
   }
 

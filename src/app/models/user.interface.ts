@@ -1,6 +1,7 @@
 export interface UserInterface {
+    id: string,
     displayName: string
     email: string
-    password: string
+    invites: string[]
   }
   

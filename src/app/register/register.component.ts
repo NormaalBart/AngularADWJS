@@ -49,13 +49,14 @@ export class RegisterComponent {
       this.authService
         .register({ email, password, displayName } as RegisterInterface).pipe(
           catchError((error) => {
+            console.error('Register error', error);
             resolve();
             return [];
           })
         ).subscribe(() => {
-          resolve();
           this.router.navigate([pathNames.projects.projects]);
           this.messageService.addMessage({ type: MessageType.Success, translateKey: 'auth.register' });
+          resolve();
         });
 
     }));
