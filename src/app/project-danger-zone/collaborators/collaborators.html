@@ -1,0 +1,12 @@
+<div *ngIf="currentProject$ | async as currentProject"
+    class="p-4 rounded-lg shadow-lg border-2 border-gray-500 bg-gray-100 m-2">
+    <h2 class="text-lg font-semibold text-black">{{'dangerzone.collaborators.title' | translate}}</h2>
+
+    <div *ngFor="let user of users$ | async">
+        <p>
+            <strong>Display Name:</strong> {{ user.displayName }}<br>
+            <strong>Email:</strong> {{ user.email }}
+        </p>
+    </div>
+
+</div>

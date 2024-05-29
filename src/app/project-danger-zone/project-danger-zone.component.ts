@@ -14,11 +14,12 @@ import { pathNames } from '../../environments/global';
 import { MessageService } from '../services/mesasge.service';
 import { Message, MessageType } from '../models/message.interface';
 import { DangerActionComponent } from './danger-action/project-danger-zone-danger-action';
+import { CollaboratorsComponent } from './collaborators/collaborators';
 
 @Component({
   selector: 'app-project-danger-zone',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingbuttonComponent, ErrorFieldComponent, DangerActionComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingbuttonComponent, ErrorFieldComponent, DangerActionComponent, CollaboratorsComponent],
   templateUrl: './project-danger-zone.component.html',
 })
 export class ProjectDangerZoneComponent {

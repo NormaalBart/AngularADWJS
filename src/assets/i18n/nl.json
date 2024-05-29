@@ -28,7 +28,10 @@
             "button": "Project verwijderen",
             "warning": "Dit kan niet ongedaan worden gemaakt!"
         },
-        "enter_project_name": "Voer de projectnaam in"
+        "enter_project_name": "Voer de projectnaam in",
+        "collaborators": {
+            "title": "Samenwerkingsverbanden"
+        }
     },
     "cancel": "Annuleren",
     "messages": {

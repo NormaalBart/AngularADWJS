@@ -28,6 +28,7 @@ export class AdminComponent implements OnInit {
   projectService = inject(ProjectService);
   messageService = inject(MessageService);
   activeRoute = inject(ActivatedRoute);
+  currentUser$ = this.authService.currentUser$;
 
   projects$ = this.projectService.projects$;
 

@@ -21,7 +21,7 @@ export class ProjectService {
         return of([] as Project[]);
       }
 
-      const uid = user.uid;
+      const uid = user.id;
       const accessibleProjectsQuery = query(this.projectsCollection, where('access', 'array-contains', uid));
       return collectionData(accessibleProjectsQuery, { idField: 'id' }) as Observable<Project[]>;
     })
@@ -30,9 +30,8 @@ export class ProjectService {
   private activeProjectSubject = new BehaviorSubject<Project | null | undefined>(undefined);
   activeProject$ = this.activeProjectSubject.asObservable();
 
-  addProject(name: string): Observable<string> {
-    let user = this.authService.getUser()!;
-    return from(addDoc(this.projectsCollection, { name, archived: false, ownerId: user.uid, access: [user.uid] }).then(response => response.id));
+  addProject(userId: string, name: string): Observable<string> {
+    return from(addDoc(this.projectsCollection, { name, archived: false, ownerId: userId, access: [userId] }).then(response => response.id));
   }
 
   deleteProject(id: string): Observable<void> {

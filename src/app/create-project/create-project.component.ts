@@ -8,6 +8,7 @@ import { MessageService } from '../services/mesasge.service';
 import { MessageType } from '../models/message.interface';
 import { Router } from '@angular/router';
 import { pathNames } from '../../environments/global';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-create-project',
@@ -20,7 +21,10 @@ export class CreateProjectComponent {
   formBuilder = inject(FormBuilder);
   messageservice = inject(MessageService);
   projectService = inject(ProjectService);
+  authService = inject(AuthService);
   router = inject(Router);
+  
+  currentUser$ = this.authService.currentUser$;
 
   createProjectForm = this.formBuilder.group({
     projectName: ['', [Validators.required, Validators.minLength(3)]]
@@ -41,13 +45,13 @@ export class CreateProjectComponent {
     event.stopPropagation();
   }
 
-  addProject(): void {
+  addProject(userId: string): void {
     if (this.createProjectForm.invalid) {
       return;
     }
     const projectName = this.createProjectForm.value.projectName!;
-    this.projectService.addProject(projectName).subscribe(projectId => {
-      this.messageservice.addMessage({ type: MessageType.Success, translateKey: 'project.created', params: { projectName }});
+    this.projectService.addProject(userId, projectName).subscribe(projectId => {
+      this.messageservice.addMessage({ type: MessageType.Success, translateKey: 'project.created', params: { projectName } });
       this.closeModal(undefined);
       this.createProjectForm.reset();
       this.router.navigate([pathNames.projects.projectOverview(projectId)]);
