@@ -23,6 +23,10 @@
         "accept": "✓",
         "reject": "✗"
     },
+    "project_sidebar": {
+        "active_projects": "Actieve projecten",
+        "archived_projects": "Gearchiveerde projecten"
+    },
     "dangerzone": {
         "archive": {
             "title": "Weet u zeker dat u het project wilt archiveren?",
@@ -39,7 +43,7 @@
             "invite-button": "Uitnodigen",
             "email-placeholder": "E-mail",
             "invite-by-email": "Uitnodigen via e-mail",
-            "delete-button": "Verwijderen",
+            "delete-button": "Verwijderen"
         }
     },
     "cancel": "Annuleren",
@@ -90,16 +94,11 @@
                 "description": "Er is al een uitnodiging verstuurd naar {{collaborator}}"
             }
         }
+    },
+    "dashboard": {
+        "unarchive": {
+            "title": "Dit project is gearchiveerd, wilt u het herstellen?",
+            "button": "Project herstellen"
+        }
     }
-},
-"dashboard": {
-    "unarchive": {
-        "title": "Dit project is gearchiveerd, wilt u het herstellen?",
-        "button": "Project herstellen"
-    }
-},
-"project_sidebar": {
-    "active_projects": "Actieve projecten",
-    "archived_projects": "Gearchiveerde projecten"
-}
 }
