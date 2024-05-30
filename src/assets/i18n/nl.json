@@ -3,6 +3,7 @@
     "register": "Registreren",
     "loading": "Aan het laden...",
     "loading_data": "Data aan het laden...",
+    "invites": "Uitnodigingen",
     "email": "E-mail",
     "password": "Wachtwoord",
     "displayname": "Gebruikersnaam",
@@ -18,6 +19,10 @@
         "noDigit": "Dit veld moet minimaal 1 cijfer bevatten",
         "compareString": "De gegeven input komt niet overeen. Het moet '{{expected}}' zijn"
     },
+    "invite": {
+        "accept": "✓",
+        "reject": "✗"
+    },
     "dangerzone": {
         "archive": {
             "title": "Weet u zeker dat u het project wilt archiveren?",
@@ -30,7 +35,11 @@
         },
         "enter_project_name": "Voer de projectnaam in",
         "collaborators": {
-            "title": "Samenwerkingsverbanden"
+            "title": "Samenwerkingsverbanden",
+            "invite-button": "Uitnodigen",
+            "email-placeholder": "E-mail",
+            "invite-by-email": "Uitnodigen via e-mail",
+            "delete-button": "Verwijderen",
         }
     },
     "cancel": "Annuleren",
@@ -66,16 +75,31 @@
                 "title": "Project hersteld",
                 "description": "{{projectName}} is succesvol hersteld"
             }
+        },
+        "collaborators": {
+            "remove": {
+                "title": "Samenwerkingsverband verwijderd",
+                "description": "{{collaborator}} is succesvol verwijderd"
+            },
+            "invite": {
+                "title": "Uitnodiging verstuurd",
+                "description": "Uitnodiging is succesvol verstuurd naar {{collaborator}}"
+            },
+            "already-invited": {
+                "title": "Uitnodiging al verstuurd",
+                "description": "Er is al een uitnodiging verstuurd naar {{collaborator}}"
+            }
         }
-    },
-    "dashboard": {
-        "unarchive": {
-            "title": "Dit project is gearchiveerd, wilt u het herstellen?",
-            "button": "Project herstellen"
-        }
-    },
-    "project_sidebar": {
-        "active_projects": "Actieve projecten",
-        "archived_projects": "Gearchiveerde projecten"
     }
+},
+"dashboard": {
+    "unarchive": {
+        "title": "Dit project is gearchiveerd, wilt u het herstellen?",
+        "button": "Project herstellen"
+    }
+},
+"project_sidebar": {
+    "active_projects": "Actieve projecten",
+    "archived_projects": "Gearchiveerde projecten"
+}
 }

@@ -39,8 +39,8 @@ export class RegisterComponent {
     ]]
   });
 
-  register(): Observable<void> {
-    return from(new Promise<void>(async (resolve) => {
+  register(): Promise<void> {
+    return new Promise<void>(async (resolve) => {
       if (this.registerForm.invalid) {
         return resolve();
       }
@@ -59,6 +59,6 @@ export class RegisterComponent {
           resolve();
         });
 
-    }));
+    });
   }
 }

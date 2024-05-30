@@ -18,7 +18,8 @@ export class LoadingbuttonComponent implements OnInit {
   @Input() buttonText: string = 'Opslaan';
   @Input() loadingText: string = 'Laden';
   @Input() form!: FormGroup;
-  @Input() submitForm!: () => Observable<void>;
+  @Input() className: string = 'bg-secondary hover:bg-secondary-800 text-white'
+  @Input() submitForm!: () => Promise<void>;
 
   ngOnInit(): void {
     if (!this.form) {
@@ -37,7 +38,7 @@ export class LoadingbuttonComponent implements OnInit {
     this.isLoading = true;
     this.setFormInputsDisabled(true);
 
-    this.submitForm().subscribe(() => {
+    this.submitForm().then(() => {
       this.isLoading = false;
       this.setFormInputsDisabled(false);
     });

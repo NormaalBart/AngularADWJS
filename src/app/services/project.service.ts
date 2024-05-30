@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, catchError, from, of, switchMap } from 'rx
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, query, updateDoc, where } from '@angular/fire/firestore';
 import { firebaseTables } from '../../environments/global';
 import { AuthService } from './auth.service';
+import { User } from '../models/user.class';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,34 @@ export class ProjectService {
 
   isActiveProject(project: Project): boolean {
     return this.activeProjectSubject.value?.id === project.id;
+  }
+
+  addUser(projectId: string, userId: string): Promise<void> {
+    const docRef = doc(this.projectsCollection, projectId);
+    console.log(docRef, userId)
+    return getDoc(docRef).then(doc => {
+      if (doc.exists()) {
+        console.log(doc.data())
+        const project = doc.data() as Project;
+        console.log(project);
+        if (docRef) {
+          return updateDoc(docRef, { access: [...project.access, userId] });
+        }
+      }
+      return new Promise<void>((resolve) => { resolve() });
+    });
+  }
+
+  removeUser(projectId: string, userId: string) {
+    const docRef = doc(this.projectsCollection, projectId);
+    return getDoc(docRef).then(doc => {
+      if (doc.exists()) {
+        const project = doc.data() as Project;
+        if (docRef) {
+          return updateDoc(docRef, { access: project.access.filter(id => id !== userId) });
+        }
+      }
+      return new Promise<void>((resolve) => { resolve() });
+    });
   }
 }

@@ -38,8 +38,8 @@ export class LoginComponent {
     ]
   });
 
-  login(): Observable<void> {
-    return from(new Promise<void>(async (resolve) => {
+  login(): Promise<void> {
+    return new Promise<void>(async (resolve) => {
       if (this.loginForm.invalid) {
         return resolve();
       }
@@ -55,6 +55,6 @@ export class LoginComponent {
         this.router.navigate([pathNames.projects.projects]);
         this.messageService.addMessage({ type: MessageType.Success, translateKey: 'auth.login' });
       });
-    }));
+    });
   }
 }

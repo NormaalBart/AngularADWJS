@@ -15,6 +15,7 @@ import { MessageService } from '../services/mesasge.service';
 import { MessageInterface, MessageType } from '../models/message.interface';
 import { DangerActionComponent } from './danger-action/project-danger-zone-danger-action';
 import { CollaboratorsComponent } from './collaborators/collaborators';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-project-danger-zone',
@@ -25,11 +26,13 @@ import { CollaboratorsComponent } from './collaborators/collaborators';
 export class ProjectDangerZoneComponent {
 
   projectService = inject(ProjectService);
+  authService = inject(AuthService);
   formBuilder = inject(FormBuilder);
   router = inject(Router);
   messageService = inject(MessageService);
 
   activeProject$ = this.projectService.activeProject$;
+  currentUser$ = this.authService.currentUser$;
 
   deleteProject(project: Project): Observable<void> {
     return from(new Promise<void>(async (resolve) => {

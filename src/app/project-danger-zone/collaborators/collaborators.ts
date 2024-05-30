@@ -31,6 +31,7 @@ export class CollaboratorsComponent implements OnInit {
   userService = inject(UserService);
 
   currentProject$ = this.projectService.activeProject$;
+  currentUser$ = this.authService.currentUser$;
 
   private userSubject = new BehaviorSubject<User[]>([]);
   users$ = this.userSubject.asObservable();
@@ -38,6 +39,8 @@ export class CollaboratorsComponent implements OnInit {
   @Output() inviteForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
+
+  @Output() deleteForm = this.formBuilder.group({});
 
   ngOnInit() {
     this.projectService.activeProject$.subscribe(project => {
@@ -47,28 +50,37 @@ export class CollaboratorsComponent implements OnInit {
     });
   }
 
-  inviteUser(currentProject: Project): Observable<void> {
-    return from(new Promise<void>(async (resolve) => {
+  inviteUser(currentProject: Project): Promise<void> {
+    return new Promise<void>(async (resolve) => {
       const { email } = this.inviteForm.value;
       this.userService.getUserByEmail(email!).then(user => {
         if (user) {
           this.inviteService.isUserInvited(currentProject.id, user.id).then(isInvited => {
-            console.log(isInvited);
             if (!isInvited) {
               this.inviteService.inviteUser(currentProject, user).then(() => {
-                this.messageService.addMessage({ type: MessageType.Success, translateKey: 'collaborators.invite' });
+                this.messageService.addMessage({
+                  type: MessageType.Success, translateKey: 'collaborators.invite', params: { collaborator: user.displayName }
+                });
                 resolve();
               });
             } else {
-              this.messageService.addMessage({ type: MessageType.Warning, translateKey: 'collaborators.already-invited' });
+              this.messageService.addMessage({ type: MessageType.Warning, translateKey: 'collaborators.already-invited', params: { collaborator: user.displayName } });
               resolve();
             }
           });
         } else {
-          console.error('User not found');
           resolve();
         }
       });
-    }));
+    });
+  }
+
+  deleteUser(project: Project, user: User): Promise<void> {
+    return new Promise<void>(async (resolve) => {
+      this.projectService.removeUser(project.id, user.id).then(() => {
+        this.messageService.addMessage({ type: MessageType.Success, translateKey: 'collaborators.remove', params: { collaborator: user.displayName } });
+        resolve();
+      });
+    });
   }
 }

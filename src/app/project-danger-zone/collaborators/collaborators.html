@@ -1,25 +1,32 @@
 <div *ngIf="currentProject$ | async as currentProject"
     class="p-4 rounded-lg shadow-lg border-2 border-gray-500 bg-gray-100 m-2">
-    <h2 class="text-lg font-semibold text-black">{{'dangerzone.collaborators.title' | translate}}</h2>
+    <div *ngIf="currentUser$ | async as currentUser">
+        <h2 class="text-lg font-semibold text-black">{{'dangerzone.collaborators.title' | translate}}</h2>
 
-    <div *ngFor="let user of users$ | async">
-        <p>
-            <span *ngIf="user.id === currentProject.ownerId">
-                <i class="fas fa-crown" aria-hidden="true"></i>
-            </span>
-            {{ user.displayName}} ({{ user.email }})
-        </p>
+        <div *ngFor="let user of users$ | async">
+            <p class="w-full flex items-center">
+                {{ user.displayName }} ({{ user.email }})
+                <span *ngIf="user.id === currentProject.ownerId" class="ml-2">
+                    <i class="fas fa-crown text-orange-400" aria-hidden="true"></i>
+                </span>
+                <app-loadingbutton *ngIf="currentProject.ownerId != user.id && currentUser.id == currentProject.ownerId"
+                    [buttonText]="'dangerzone.collaborators.delete-button'"
+                    [loadingText]="'dangerzone.collaborators.delete-button'" [form]="deleteForm"
+                    [submitForm]="deleteUser.bind(this, currentProject, user)" className="bg-red-500 ml-2" />
+            </p>
+        </div>
+
+        <div *ngIf="currentUser.id == currentProject.ownerId" class="mt-4">
+            <form [formGroup]="inviteForm" (ngSubmit)="inviteUser(currentProject)">
+                <label for="email" class="block text-gray-700">{{'dangerzone.collaborators.invite-by-email' |
+                    translate}}</label>
+                <input formControlName="email" id="email" type="email" class="mt-1 block w-full border rounded-md p-2"
+                    placeholder="{{'dangerzone.collaborators.email-placeholder' | translate}}">
+                <app-loadingbutton [buttonText]="'dangerzone.collaborators.invite-button'"
+                    [loadingText]="'dangerzone.collaborators.invite-button'" [form]="inviteForm"
+                    [submitForm]="inviteUser.bind(this, currentProject)" />
+            </form>
+        </div>
     </div>
 
-    <div class="mt-4">
-        <form [formGroup]="inviteForm" (ngSubmit)="inviteUser(currentProject)">
-            <label for="email" class="block text-gray-700">{{'dangerzone.collaborators.invite-by-email' |
-                translate}}</label>
-            <input formControlName="email" id="email" type="email" class="mt-1 block w-full border rounded-md p-2"
-                placeholder="{{'dangerzone.collaborators.email-placeholder' | translate}}">
-            <app-loadingbutton [buttonText]="'dangerzone.collaborators.invite-button'"
-                [loadingText]="'dangerzone.collaborators.invite-button'" [form]="inviteForm"
-                [submitForm]="inviteUser.bind(this, currentProject)" />
-        </form>
-    </div>
 </div>

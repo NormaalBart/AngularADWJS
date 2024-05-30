@@ -16,7 +16,6 @@ export class AuthService {
 
   firebaseAuth = inject(Auth);
   firestore = inject(Firestore);
-  inviteService = inject(InviteService);
 
   private currentFirebaseUser$ = user(this.firebaseAuth);
   private currentUserSignal = new BehaviorSubject<User | null | undefined>(undefined);
@@ -35,9 +34,6 @@ export class AuthService {
         if (userDoc.exists()) {
           const userData: User = new User(user.uid, userDoc.data()['displayName'], userDoc.data()['email']);
           this.currentUserSignal.next(userData);
-          this.inviteService.getInvitesForUser(userData.id).subscribe(invites => {
-            userData.setInvites(invites);
-          });
         } else {
           this.currentUserSignal.next(null);
         }

@@ -7,7 +7,7 @@ import { environment } from '../../environments/global';
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class MessageService{
 
   private messagesSubject = new BehaviorSubject<MessageInterface[]>([]);
   messages$ = this.messagesSubject.asObservable();

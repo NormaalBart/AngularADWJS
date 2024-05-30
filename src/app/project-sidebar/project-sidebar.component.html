@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center mb-4">
-    <div class="flex w-full m-1">
+    <div class="flex w-full mb-1">
         <div class="mr-auto">
             <button *ngIf="sidebarStatus !== SidebarStatus.Projects" (click)="sidebarStatus = SidebarStatus.Projects"
                 title="{{'go_back' | translate}}"
@@ -23,13 +23,22 @@
 
 <div *ngIf="user$ | async as user">
     <div *ngIf="user.invites$ | async as invites">
-        <div *ngIf="invites.length !== 0">
-            <h3>Invites:</h3>
+        <div *ngIf="invites.length !== 0" class="mb-4">
+            <h2 class="text-lg font-semibold truncate">
+                {{ "invites" | translate }}
+            </h2>
             <ul>
-                <li *ngFor="let invite of invites">
-                    {{ invite.userId }} - {{ invite.projectName }}
+                <li *ngFor="let invite of invites" class="flex items-center space-x-4 p-2 border-b border-gray-300">
+                    <span class="font-bold">{{ invite.projectName }}</span>
+                    <div class="flex space-x-2">
+                        <app-loadingbutton [buttonText]="'invite.accept'" [loadingText]="''" [form]="form"
+                            [submitForm]="acceptInvite.bind(this, invite)" className="bg-green-500" />
+                        <app-loadingbutton [buttonText]="'invite.reject'" [loadingText]="''" [form]="form"
+                            [submitForm]="rejectInvite.bind(this, invite)" className="bg-red-500" />
+                    </div>
                 </li>
             </ul>
+            <hr class="w-full border-t-2 border-gray-300">
         </div>
     </div>
 </div>
@@ -50,7 +59,12 @@
                 'bg-white hover:bg-gray-300 text-black': !isActiveProject(project) && !project.archived,
                 'bg-gray-200 text-gray-500': project.archived,
             }" class="flex items-center p-1 rounded-md cursor-pointer">
-        <p class="truncate">{{ project.name }}</p>
+        <p class="truncate flex items-center w-full">
+            {{ project.name }}
+            <span *ngIf="project.access.length > 1" class="ml-auto mr-1">
+                <i class="fas fa-users"></i>
+            </span>
+        </p>
     </li>
 </ul>
 
