@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component'
 import { RegisterComponent } from './register/register.component'
 import { pathNames } from '../environments/global';
 import { ProjectDangerZoneComponent } from './project-danger-zone/project-danger-zone.component';
+import { MutationsComponent } from './mutations/mutations.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,12 @@ export const routes: Routes = [
   {
     path: pathNames.projects.projectOverview(':projectId'),
     component: DashboardComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: () => redirectUnauthorizedTo([pathNames.auth.login]) },
+  },
+  {
+    path: pathNames.projects.mutations(':projectId'),
+    component: MutationsComponent,
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => redirectUnauthorizedTo([pathNames.auth.login]) },
   },

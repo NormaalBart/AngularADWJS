@@ -2,6 +2,7 @@ export const firebaseTables = {
   projects: 'projects',
   users: 'users',
   invites: 'invites',
+  mutations: 'mutations',
 }
 
 export const environment = {
@@ -13,6 +14,7 @@ export const pathNames = {
   projects: {
     projects: 'projects',
     projectOverview: (projectId: string) => `projects/${projectId}/overview`,
+    mutations: (projectId: string) => `projects/${projectId}/mutations`,
     projectDangerZone: (projectId: string) => `projects/${projectId}/dangerzone`
   },
   auth: {

@@ -1,0 +1,54 @@
+<div *ngIf="currentProject$ | async as activeProject" class="container mx-auto p-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Mutations List -->
+        <div class="bg-white p-4 rounded shadow-sm">
+            <h1 class="text-2xl font-bold mb-4">Mutations</h1>
+            <ul class="divide-y divide-gray-200">
+                <li *ngFor="let mutation of mutations$ | async" class="py-4 flex justify-between items-center">
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">ID: {{ mutation.id }}</p>
+                        <p class="text-sm font-medium text-gray-900">Person: {{ mutation.person }}</p>
+                        <p class="text-sm text-gray-500">Date: {{ mutation.date | date }}</p>
+                        <p class="text-sm text-gray-500">Amount: {{ mutation.amount | currency }}</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button (click)="editMutation(mutation)" class="text-blue-500 hover:text-blue-600">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button (click)="deleteMutation(mutation.id!)" class="text-red-500 hover:text-red-600">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Form to Add/Edit Mutations -->
+        <div class="bg-white p-4 rounded shadow-sm">
+            <h1 class="text-2xl font-bold mb-4">Add / Edit Mutation</h1>
+            <form [formGroup]="mutationForm" (ngSubmit)="submitForm(activeProject.id)"
+                class="mb-4 p-4 border rounded shadow-sm">
+                <div class="mb-4">
+                    <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                    <input type="number" id="amount" formControlName="amount"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                </div>
+                <div class="mb-4">
+                    <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                    <input type="date" id="date" formControlName="date"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                </div>
+                <div class="mb-4">
+                    <label for="person" class="block text-sm font-medium text-gray-700">Person</label>
+                    <input type="text" id="person" formControlName="person"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

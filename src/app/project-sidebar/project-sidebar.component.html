@@ -81,6 +81,15 @@
         </a>
     </li>
     <li [ngClass]="{
+        'bg-primary-500 hover:bg-primary-600 text-white': isActiveRoute(PathNames.projects.mutations(activeProject.id)),
+        'bg-white hover:bg-gray-300 text-black': !isActiveRoute(PathNames.projects.mutations(activeProject.id)),
+        }" class="flex items-center p-1 rounded-md cursor-pointer">
+        <a [routerLink]="PathNames.projects.mutations(activeProject.id)"
+            class="w-full h-full flex items-center justify-center">
+            <p>Mutaties</p>
+        </a>
+    </li>
+    <li [ngClass]="{
             'bg-red-500 hover:bg-red-600 text-white': isActiveRoute(PathNames.projects.projectDangerZone(activeProject.id)),
             'bg-white hover:bg-red-300 text-black': !isActiveRoute(PathNames.projects.projectDangerZone(activeProject.id)),
             }" class="flex items-center p-1 rounded-md cursor-pointer">
