@@ -23,3 +23,5 @@ export const pathNames = {
     register: 'register',
   }
 };
+
+export const emptyCategoryFilter = "emptyCategoryFilter";

@@ -11,6 +11,7 @@ import { combineLatest, map } from 'rxjs';
 import { CategoryService } from '../services/categories.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { emptyCategoryFilter } from '../../environments/global';
 
 @Component({
   selector: 'app-mutations',
@@ -19,8 +20,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   templateUrl: './mutations.component.html',
 })
 export class MutationsComponent {
-
-  console = console;
 
   private mutationService = inject(MutationService);
   private categoryService = inject(CategoryService);
@@ -41,6 +40,7 @@ export class MutationsComponent {
   );
 
   selectedMutation: Mutation | undefined = undefined;
+  selectedCategories: Set<string> = new Set();
   isDragging = false;
 
   openMutationForm(mutation: Mutation | undefined, projectId: string) {
@@ -64,5 +64,17 @@ export class MutationsComponent {
     setTimeout(() => {
       this.isDragging = false;
     }, 20);
+  }
+
+  filterMutations(mutations: Mutation[]): Mutation[] {
+    if (this.selectedCategories.size === 0) {
+      return mutations;
+    }
+    return mutations.filter(mutation => {
+      if (this.selectedCategories.has(emptyCategoryFilter)) {
+        return mutation.categoryId === null;
+      }
+      return this.selectedCategories.has(mutation.categoryId || '');
+    });
   }
 }

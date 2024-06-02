@@ -79,6 +79,7 @@
         "category": "Categorie",
         "selectCategory": "Selecteer een categorie"
     },
+    "empty_mutations": "Geen category",
     "project": {
         "create": "Project aanmaken"
     },

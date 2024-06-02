@@ -1,7 +1,7 @@
 <div *ngIf="currentProject$ | async as activeProject" class="h-full mx-auto p-4">
     <div class="flex h-full gap-4" cdkDropListGroup>
         <div class="w-3/4">
-            <div class="grid grid-cols-3 gap-2" cdkDropList>
+            <div class="grid grid-cols-3 gap-2" cdkDropList *ngIf="enrichedMutations$ | async as mutations">
                 <div class="col-span-1 text-center w-full items-center justify-center bg-white p-4 rounded shadow-sm cursor-pointer"
                     (click)="openMutationForm(undefined, activeProject.id)">
                     <button
@@ -12,7 +12,7 @@
                 </div>
 
                 <!-- Mutations List -->
-                <div *ngFor="let mutation of enrichedMutations$ | async" cdkDrag [cdkDragData]="mutation"
+                <div *ngFor="let mutation of filterMutations(mutations)" cdkDrag [cdkDragData]="mutation"
                     (cdkDragStarted)="isDragging = true" (cdkDragEnded)="handleDragEnd()"
                     class="col-span-1 bg-white p-4 rounded shadow-sm cursor-pointer"
                     (click)="openMutationForm(mutation, activeProject.id)">
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="w-1/4 bg-white flex-grow rounded-sm p-3 ">
-            <app-categories [projectId]="activeProject.id"></app-categories>
+            <app-categories [projectId]="activeProject.id" [filterCategories]="selectedCategories"></app-categories>
         </div>
     </div>
     <app-mutation-form *ngIf="selectedMutation" [selectedMutation]="selectedMutation"
