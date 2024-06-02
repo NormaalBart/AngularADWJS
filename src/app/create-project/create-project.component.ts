@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectService } from '../services/project.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ErrorFieldComponent } from '../error-field/error-field.component';
 import { MessageService } from '../services/mesasge.service';
 import { MessageType } from '../models/message.interface';
-import { Router } from '@angular/router';
 import { pathNames } from '../../environments/global';
 import { AuthService } from '../services/auth.service';
 import { ModalComponent } from '../modal/modal.component';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-project',

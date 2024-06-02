@@ -27,20 +27,24 @@ export class MutationService {
   );
 
   addMutation(mutation: Mutation): Promise<void> {
-    return addDoc(this.mutationsCollection, mutation).then(() => { });
+    return addDoc(this.mutationsCollection, this.parseMutation(mutation)).then(() => { });
   }
 
   updateMutation(id: string, mutation: Mutation): Promise<void> {
     console.log(mutation);
     const mutationDoc = doc(this.mutationsCollection, id);
-    return updateDoc(mutationDoc, {
+    return updateDoc(mutationDoc, this.parseMutation(mutation));
+  }
+
+  private parseMutation(mutation: Mutation) {
+    return {
       title: mutation.title,
       amount: mutation.amount,
       date: mutation.date,
       person: mutation.person,
       projectId: mutation.projectId,
       categoryId: mutation.categoryId,
-    });
+    };
   }
 
   deleteMutation(id: string): Promise<void> {
@@ -52,13 +56,13 @@ export class MutationService {
     const mutationsQuery = query(
       this.mutationsCollection,
       where('projectId', '==', projectId),
-      where('category', '==', category)
+      where('categoryId', '==', category)
     );
 
     return getDocs(mutationsQuery).then(querySnapshot => {
       const batch = writeBatch(this.firestore);
       querySnapshot.forEach(doc => {
-        batch.delete(doc.ref);
+        batch.update(doc.ref, { categoryId: null });
       });
 
       return batch.commit();

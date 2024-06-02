@@ -28,16 +28,12 @@ export class CategoryService {
     );
 
     addCategory(category: Category): Promise<void> {
-        return addDoc(this.categoriesCollection, category).then(() => { });
+        return addDoc(this.categoriesCollection, this.parseCategory(category)).then(() => { });
     }
 
     updateCategory(category: Category): Promise<void> {
         const mutationDoc = doc(this.categoriesCollection, category.id!);
-        return updateDoc(mutationDoc, {
-            name: category.name,
-            maxBudget: category.maxBudget,
-            endDate: category.endDate,
-        });
+        return updateDoc(mutationDoc, this.parseCategory(category));
     }
 
     deleteCategory(category: Category): Promise<void> {
@@ -45,5 +41,14 @@ export class CategoryService {
             const mutationDoc = doc(this.categoriesCollection, category.id!);
             return deleteDoc(mutationDoc);
         });
+    }
+
+    private parseCategory(category: Category) {
+        return {
+            name: category.name,
+            maxBudget: category.maxBudget,
+            endDate: category.endDate,
+            projectId: category.projectId,
+        };
     }
 }

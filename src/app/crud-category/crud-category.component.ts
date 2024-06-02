@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ErrorFieldComponent } from '../error-field/error-field.component';
 import { MessageService } from '../services/mesasge.service';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ModalComponent } from '../modal/modal.component';
 import { CategoryService } from '../services/categories.service';
 import { Category } from '../models/category.interface';
 import { Timestamp } from '@angular/fire/firestore';
 import { currencyValidator } from '../validators/UtilValidator';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crud-category',
@@ -73,15 +73,18 @@ export class CrudCategoryComponent implements OnChanges {
       id: this.selectedCategory!.id,
       name: formValue.categoryName!,
       projectId: this.projectId,
-      maxBudget: parseFloat(formValue.maxBudget!),
+      maxBudget: parseFloat(formValue.maxBudget ? formValue.maxBudget : '0'),
       endDate: formValue.endDate ? Timestamp.fromDate(new Date(formValue.endDate!)) : null,
     };
+
+    console.log(this.selectedCategory);
 
     if (this.selectedCategory!.id) {
       return this.categoryService.updateCategory(category).then(() => {
         this.closeModal();
       });
     } else {
+      console.log('calling add');
       return this.categoryService.addCategory(category).then(() => {
         this.closeModal()
       });

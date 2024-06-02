@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MutationService } from '../services/mutations.service';
 import { ProjectService } from '../services/project.service';
 import { MutationFormComponent } from './form/mutation-form.component';
@@ -10,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CategoriesComponent } from '../categories/categories.component';
 import { combineLatest, map } from 'rxjs';
 import { CategoryService } from '../services/categories.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-mutations',
