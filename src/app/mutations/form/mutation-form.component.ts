@@ -68,6 +68,7 @@ export class MutationFormComponent implements OnChanges {
         }
         const formValue = this.mutationForm.value;
         const mutation: Mutation = {
+            id: this.selectedMutation!.id,
             title: formValue.title!,
             person: formValue.person!,
             amount: parseFloat(formValue.amount!),
@@ -78,7 +79,7 @@ export class MutationFormComponent implements OnChanges {
         };
 
         if (this.selectedMutation!.id) {
-            return this.mutationService.updateMutation(this.selectedMutation!.id!, mutation).then(() => {
+            return this.mutationService.updateMutation(mutation).then(() => {
                 this.showModalChange.emit(undefined);
                 this.mutationForm.reset();
             });

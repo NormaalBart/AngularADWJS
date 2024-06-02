@@ -14,9 +14,9 @@
     </div>
     <hr class="w-full border-t-2 border-gray-300">
 
-
     <ul>
-        <li *ngFor="let category of categories$ | async"
+        <li *ngFor="let category of categories$ | async" cdkDropList [cdkDropListData]="category"
+            (cdkDropListDropped)="onDrop($event)"
             class="flex justify-between items-center bg-white p-4 rounded shadow-sm mb-2">
             {{ category.name }}
             <button (click)="openSelectedCategory(category)" class="text-blue-500 hover:text-blue-700">
@@ -25,5 +25,5 @@
         </li>
     </ul>
     <app-crud-category *ngIf="selectedCategory" [selectedCategory]="selectedCategory"
-        (showModalChange)="selectedCategory = $event" [projectId]="activeProject.id" />
+        (showModalChange)="selectedCategory = $event" [projectId]="activeProject.id"></app-crud-category>
 </div>

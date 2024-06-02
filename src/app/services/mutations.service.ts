@@ -30,9 +30,8 @@ export class MutationService {
     return addDoc(this.mutationsCollection, this.parseMutation(mutation)).then(() => { });
   }
 
-  updateMutation(id: string, mutation: Mutation): Promise<void> {
-    console.log(mutation);
-    const mutationDoc = doc(this.mutationsCollection, id);
+  updateMutation(mutation: Mutation): Promise<void> {
+    const mutationDoc = doc(this.mutationsCollection, mutation.id!);
     return updateDoc(mutationDoc, this.parseMutation(mutation));
   }
 
