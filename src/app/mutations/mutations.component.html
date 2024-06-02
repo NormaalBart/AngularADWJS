@@ -1,47 +1,55 @@
 <div *ngIf="currentProject$ | async as activeProject" class="w-full h-full">
     <div *ngIf="categories$ | async as categories" class="w-full h-full">
         <div *ngIf="enrichedMutations$ | async as mutations">
-            <div class="w-full bg-white rounded-md p-3 my-4">
-                <div class="flex space-x-4 w-full">
-                    <div *ngIf="categories$ | async as categories" class="overflow-x-auto">
-                        <div class="flex space-x-4">
-                            <div class="p-4 bg-white rounded shadow-sm min-w-[200px]">
-                                <p class="text-lg font-semibold">Totaal</p>
-                                <p>{{ getTotalAmount(filterMutations(mutations)) | currency }}</p>
-                            </div>
-                            <div *ngFor="let category of getCategoryData(filterMutations(mutations), categories)"
-                                class="p-4 bg-white rounded shadow-sm min-w-[200px]">
-                                <p class="text-lg font-semibold">{{ category.name }}</p>
-                                <p *ngIf="category.endDate"
-                                    [ngClass]="{ 'text-red-700': category.isPastEndDate, 'text-red-400': category.isNearEndDate }">
-                                    End Date: {{ category.endDate?.toDate() | date }}
-                                </p>
-                                <p
-                                    [ngClass]="{ 'text-red-700': category.isOverBudget, 'bg-red-400': category.isAlmostOverBudget }">
-                                    Budget: {{ category.totalSpent | currency }} / {{ category.maxBudget | currency }}
-                                </p>
+            <app-closingcontent title="graph">
+                Grafiek todo..
+            </app-closingcontent>
+
+            <app-closingcontent title="options">
+                <div class="w-full bg-white rounded-md p-3 my-4">
+                    <div class="flex space-x-4 w-full">
+                        <div *ngIf="categories$ | async as categories" class="overflow-x-auto">
+                            <div class="flex space-x-4">
+                                <div class="p-4 bg-white rounded shadow-sm min-w-[200px]">
+                                    <p class="text-lg font-semibold">Totaal</p>
+                                    <p>{{ getTotalAmount(filterMutations(mutations)) | currency }}</p>
+                                </div>
+                                <div *ngFor="let category of getCategoryData(filterMutations(mutations), categories)"
+                                    class="p-4 bg-white rounded shadow-sm min-w-[200px]">
+                                    <p class="text-lg font-semibold">{{ category.name }}</p>
+                                    <p *ngIf="category.endDate"
+                                        [ngClass]="{ 'text-red-700': category.isPastEndDate, 'text-red-400': category.isNearEndDate }">
+                                        End Date: {{ category.endDate?.toDate() | date }}
+                                    </p>
+                                    <p
+                                        [ngClass]="{ 'text-red-700': category.isOverBudget, 'bg-red-400': category.isAlmostOverBudget }">
+                                        Budget: {{ category.totalSpent | currency }} / {{ category.maxBudget | currency
+                                        }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="w-full bg-white p-4 flex items-center justify-between mb-4">
-                <input type="text" placeholder="Zoek een mutatie" class="p-2 border rounded w-2/3"
-                    [(ngModel)]="searchQuery" />
-                <div class="flex space-x-4">
-                    <select class="p-2 border rounded" (change)="onMonthChange($event)">
-                        <option value="">Selecteer een maand</option>
-                        <option *ngFor="let month of getUniqueMonths(filterMutations(mutations, true))" [value]="month">{{ month }}</option>
-                    </select>
-                    <select class="p-2 border rounded" (change)="onSortChange($event)">
-                        <option value="date-asc">Datum ↑</option>
-                        <option value="date-desc">Datum ↓</option>
-                        <option value="price-asc">Prijs ↑</option>
-                        <option value="price-desc">Prijs ↓</option>
-                    </select>
+                <div class="w-full flex p-4">
+                    <input type="text" placeholder="Zoek een mutatie" class="p-2 border rounded w-2/3"
+                        [(ngModel)]="searchQuery" />
+                    <div class="flex space-x-4 ml-auto">
+                        <select class="p-2 border rounded" (change)="onMonthChange($event)">
+                            <option value="">Selecteer een maand</option>
+                            <option *ngFor="let month of getUniqueMonths(filterMutations(mutations, true))"
+                                [value]="month">
+                                {{ month }}</option>
+                        </select>
+                        <select class="p-2 border rounded" (change)="onSortChange($event)">
+                            <option value="date-asc">Datum ↑</option>
+                            <option value="date-desc">Datum ↓</option>
+                            <option value="price-asc">Prijs ↑</option>
+                            <option value="price-desc">Prijs ↓</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+            </app-closingcontent>
 
             <div cdkDropListGroup class="flex w-full gap-2">
                 <div class="w-3/4">

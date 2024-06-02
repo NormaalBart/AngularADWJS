@@ -13,11 +13,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { emptyCategoryFilter } from '../../environments/global';
 import { Category } from '../models/category.interface';
+import { ClosingcontentComponent } from '../closingcontent/closingcontent.component';
 
 @Component({
   selector: 'app-mutations',
   standalone: true,
-  imports: [CommonModule, FormsModule, MutationFormComponent, TranslateModule, CategoriesComponent, DragDropModule],
+  imports: [CommonModule, FormsModule, MutationFormComponent, TranslateModule, CategoriesComponent, DragDropModule, ClosingcontentComponent],
   templateUrl: './mutations.component.html',
 })
 export class MutationsComponent {

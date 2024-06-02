@@ -61,6 +61,7 @@
         "endDate": "Einddatum",
         "endDatePlaceholder": "Kies een einddatum"
     },
+    "graph": "Grafiek",
     "mutation": {
         "delete": {
             "title": "Weet u zeker dat u deze mutatie wilt verwijderen?",
@@ -79,6 +80,7 @@
         "category": "Categorie",
         "selectCategory": "Selecteer een categorie"
     },
+    "options": "Opties",
     "empty_mutations": "Geen category",
     "project": {
         "create": "Project aanmaken"

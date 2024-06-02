@@ -1,0 +1,11 @@
+<div class="w-full bg-white rounded-md mb-4">
+    <div class="flex items-center justify-between cursor-pointer" (click)="toggleContent()">
+        <div class="flex items-center">
+            <i [ngClass]="{'fa-chevron-right': !isContentVisible, 'fa-chevron-down': isContentVisible}" class="fas"></i>
+            <span class="ml-2">{{title | translate}}</span>
+        </div>
+    </div>
+    <div [ngClass]="{'hidden': !isContentVisible}" class="w-full">
+        <ng-content></ng-content>
+    </div>
+</div>
