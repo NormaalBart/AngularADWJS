@@ -1,7 +1,34 @@
-<div *ngIf="currentProject$ | async as activeProject" class="h-full mx-auto p-4">
-    <div class="flex h-full gap-4" cdkDropListGroup>
+<div *ngIf="currentProject$ | async as activeProject" class="flex flex-col h-full mx-auto p-4 gap-4">
+    <div *ngIf="enrichedMutations$ | async as mutations" class="w-full bg-white rounded-md p-3 mt-4">
+        <div *ngIf="categories$ | async as categories">
+            <div class="flex space-x-4 w-full">
+                <div *ngIf="categories$ | async as categories" class="overflow-x-auto">
+                    <div class="flex space-x-4">
+                        <div class="p-4 bg-white rounded shadow-sm min-w-[200px]">
+                            <p class="text-lg font-semibold">Totaal</p>
+                            <p>{{ getTotalAmount(filterMutations(mutations)) | currency }}</p>
+                        </div>
+                        <div *ngFor="let category of getCategoryData(filterMutations(mutations), categories)"
+                            class="p-4 bg-white rounded shadow-sm min-w-[200px]">
+                            <p class="text-lg font-semibold">{{ category.name }}</p>
+                            <p *ngIf="category.endDate"
+                                [ngClass]="{ 'text-red-700': category.isPastEndDate, 'text-red-400': category.isNearEndDate }">
+                                End Date: {{ category.endDate?.toDate() | date }}
+                            </p>
+                            <p
+                                [ngClass]="{ 'text-red-700': category.isOverBudget, 'bg-red-400': category.isAlmostOverBudget }">
+                                Budget: {{ category.totalSpent | currency }} / {{ category.maxBudget | currency }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="enrichedMutations$ | async as mutations" class="flex h-full gap-4" cdkDropListGroup>
         <div class="w-3/4">
-            <div class="grid grid-cols-3 gap-2" cdkDropList *ngIf="enrichedMutations$ | async as mutations">
+            <div class="grid grid-cols-3 gap-2" cdkDropList>
                 <div class="col-span-1 text-center w-full items-center justify-center bg-white p-4 rounded shadow-sm cursor-pointer"
                     (click)="openMutationForm(undefined, activeProject.id)">
                     <button
@@ -11,7 +38,6 @@
                     <p>{{'mutation.add-mutation' | translate}}</p>
                 </div>
 
-                <!-- Mutations List -->
                 <div *ngFor="let mutation of filterMutations(mutations)" cdkDrag [cdkDragData]="mutation"
                     (cdkDragStarted)="isDragging = true" (cdkDragEnded)="handleDragEnd()"
                     class="col-span-1 bg-white p-4 rounded shadow-sm cursor-pointer"
@@ -19,9 +45,11 @@
                     <p class="text-lg font-bold">{{ mutation.title }}
                         <span *ngIf="mutation.categoryName">({{mutation.categoryName}})</span>
                     </p>
-                    <p class="text-sm text-gray-500">{{ 'mutation.amount' | translate }}: {{ mutation.amount | currency
+                    <p class="text-sm text-gray-500">{{ 'mutation.amount' | translate }}: {{ mutation.amount |
+                        currency
                         }}</p>
-                    <p class="text-sm text-gray-500">{{ 'mutation.date' | translate }}: {{ mutation.date.toDate() | date
+                    <p class="text-sm text-gray-500">{{ 'mutation.date' | translate }}: {{ mutation.date.toDate() |
+                        date
                         }}</p>
                     <p class="text-sm text-gray-500">{{ 'mutation.person' | translate }}: {{ mutation.person }}</p>
                 </div>

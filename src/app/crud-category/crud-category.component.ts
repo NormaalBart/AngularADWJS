@@ -77,8 +77,6 @@ export class CrudCategoryComponent implements OnChanges {
       endDate: formValue.endDate ? Timestamp.fromDate(new Date(formValue.endDate!)) : null,
     };
 
-    console.log(this.selectedCategory);
-
     if (this.selectedCategory!.id) {
       return this.categoryService.updateCategory(category).then(() => {
         this.closeModal();

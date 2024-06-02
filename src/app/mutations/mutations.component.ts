@@ -12,6 +12,7 @@ import { CategoryService } from '../services/categories.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { emptyCategoryFilter } from '../../environments/global';
+import { Category } from '../models/category.interface';
 
 @Component({
   selector: 'app-mutations',
@@ -26,7 +27,7 @@ export class MutationsComponent {
   private projectService = inject(ProjectService);
 
   private mutations$ = this.mutationService.mutations$;
-  private categories$ = this.categoryService.categories$;
+  categories$ = this.categoryService.categories$;
   currentProject$ = this.projectService.activeProject$;
 
   enrichedMutations$ = combineLatest([this.mutations$, this.categories$]).pipe(
@@ -76,5 +77,32 @@ export class MutationsComponent {
       }
       return this.selectedCategories.has(mutation.categoryId || '');
     });
+  }
+
+  getTotalAmount(mutations: Mutation[]): number {
+    return mutations.reduce((sum, mutation) => sum + mutation.amount, 0);
+  }
+
+  getCategoryData(mutations: Mutation[], categories: Category[]) {
+    const now = new Date();
+    return categories
+      .filter(category => this.selectedCategories.size === 0 || this.selectedCategories.has(category.id!))
+      .map(category => {
+        const filteredMutations = mutations.filter(mutation => mutation.categoryId === category.id);
+        const totalSpent = filteredMutations.reduce((sum, mutation) => sum + mutation.amount, 0);
+        const endDate = category.endDate?.toDate();
+        return {
+          ...category,
+          totalSpent,
+          isOverBudget: totalSpent > category.maxBudget,
+          isAlmostOverBudget: totalSpent > category.maxBudget * 0.9,
+          isPastEndDate: endDate ? now > endDate : false,
+          isNearEndDate: endDate ? (endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24) <= 7 : false
+        };
+      });
+  }
+
+  isEmptyCategory(): boolean {
+    return this.selectedCategories.has(emptyCategoryFilter);
   }
 }
