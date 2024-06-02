@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CategoriesComponent } from '../categories/categories.component';
 import { combineLatest, map } from 'rxjs';
 import { CategoryService } from '../services/categories.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { emptyCategoryFilter } from '../../environments/global';
 import { Category } from '../models/category.interface';
@@ -17,7 +17,7 @@ import { Category } from '../models/category.interface';
 @Component({
   selector: 'app-mutations',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MutationFormComponent, TranslateModule, CategoriesComponent, DragDropModule],
+  imports: [CommonModule, FormsModule, MutationFormComponent, TranslateModule, CategoriesComponent, DragDropModule],
   templateUrl: './mutations.component.html',
 })
 export class MutationsComponent {
@@ -43,6 +43,10 @@ export class MutationsComponent {
   selectedMutation: Mutation | undefined = undefined;
   selectedCategories: Set<string> = new Set();
   isDragging = false;
+  searchQuery: string = '';
+  sortField: string = 'date';
+  sortOrder: string = 'desc';
+  selectedMonth: string = '';
 
   openMutationForm(mutation: Mutation | undefined, projectId: string) {
     if (this.isDragging) {
@@ -67,15 +71,59 @@ export class MutationsComponent {
     }, 20);
   }
 
-  filterMutations(mutations: Mutation[]): Mutation[] {
-    if (this.selectedCategories.size === 0) {
-      return mutations;
+  onSortChange(event: any) {
+    const value = event.target.value;
+    const [field, order] = value.split('-');
+    this.sortField = field;
+    this.sortOrder = order;
+  }
+
+  getUniqueMonths(mutations: Mutation[]): string[] {
+    const months = mutations.map(mutation =>
+      new Date(mutation.date.toDate()).toLocaleString('default', { month: 'long', year: 'numeric' })
+    );
+    return [...new Set(months)];
+  }
+
+  onMonthChange(event: any) {
+    this.selectedMonth = event.target.value;
+  }
+
+  filterMutations(mutations: Mutation[], withoutMonth: boolean = false): Mutation[] {
+    let filteredMutations = mutations;
+
+    if (this.selectedCategories.size !== 0) {
+      filteredMutations = filteredMutations.filter(mutation => {
+        if (this.selectedCategories.has(emptyCategoryFilter)) {
+          return mutation.categoryId === null;
+        }
+        return this.selectedCategories.has(mutation.categoryId || '');
+      });
     }
-    return mutations.filter(mutation => {
-      if (this.selectedCategories.has(emptyCategoryFilter)) {
-        return mutation.categoryId === null;
+
+    if (this.searchQuery) {
+      filteredMutations = filteredMutations.filter(mutation =>
+        mutation.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
+
+    if (this.selectedMonth && !withoutMonth) {
+      filteredMutations = filteredMutations.filter(mutation => {
+        const mutationMonth = new Date(mutation.date.toDate()).toLocaleString('default', { month: 'long', year: 'numeric' });
+        return mutationMonth === this.selectedMonth;
+      });
+    }
+
+    return filteredMutations.sort((a, b) => {
+      let comparison = 0;
+
+      if (this.sortField === 'date') {
+        comparison = a.date.toDate().getTime() - b.date.toDate().getTime();
+      } else if (this.sortField === 'price') {
+        comparison = a.amount - b.amount;
       }
-      return this.selectedCategories.has(mutation.categoryId || '');
+
+      return this.sortOrder === 'asc' ? comparison : -comparison;
     });
   }
 
