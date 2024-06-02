@@ -33,7 +33,7 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     importProvidersFrom([
-      HttpClientModule,
+      HttpClient,
       TranslateModule.forRoot(provideTranslation())
     ])
   ]
