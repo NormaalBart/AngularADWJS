@@ -26,10 +26,6 @@ export class MutationService {
     })
   );
 
-  getMutations(): Observable<Mutation[]> {
-    return collectionData(this.mutationsCollection, { idField: 'id' }) as Observable<Mutation[]>;
-  }
-
   addMutation(mutation: Mutation): Promise<void> {
     return addDoc(this.mutationsCollection, mutation).then(() => { });
   }
