@@ -53,7 +53,16 @@
             "title": "Weet u zeker dat u deze mutatie wilt verwijderen?",
             "button": "Mutatie verwijderen",
             "placeholder": "Voer de mutatietitel in"
-        }
+        },
+        "add-mutation": "Voeg mutatie toe",
+        "title": "Titel",
+        "amount": "Bedrag",
+        "date": "Datum",
+        "person": "Persoon",
+        "titlePlaceholder": "Voer de titel in",
+        "amountPlaceholder": "Voer het bedrag in",
+        "datePlaceholder": "Kies een datum",
+        "personPlaceholder": "Voer de naam van de persoon in die het bedrag heeft betaald"
     },
     "messages": {
         "auth": {

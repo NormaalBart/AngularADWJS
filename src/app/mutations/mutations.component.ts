@@ -6,11 +6,12 @@ import { ProjectService } from '../services/project.service';
 import { MutationFormComponent } from './form/mutation-form.component';
 import { Mutation } from '../models/mutation.interface';
 import { Timestamp } from '@angular/fire/firestore';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mutations',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MutationFormComponent],
+  imports: [CommonModule, ReactiveFormsModule, MutationFormComponent, TranslateModule],
   templateUrl: './mutations.component.html',
 })
 export class MutationsComponent {

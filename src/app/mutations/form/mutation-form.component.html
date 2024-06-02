@@ -8,27 +8,38 @@
         </div>
         <form [formGroup]="mutationForm" (ngSubmit)="submitForm()">
             <div class="mb-4">
-                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                <label for="title" class="block text-sm font-medium text-gray-700">{{ 'mutation.title' | translate
+                    }}</label>
                 <input type="text" id="title" formControlName="title"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    placeholder="{{ 'mutation.titlePlaceholder' | translate }}" />
                 <app-error-field [inputField]="mutationForm.get('title')!" />
             </div>
             <div class="mb-4">
-                <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                <label for="amount" class="block text-sm font-medium text-gray-700">{{ 'mutation.amount' | translate
+                    }}</label>
                 <input type="number" id="amount" formControlName="amount"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    placeholder="{{ 'mutation.amountPlaceholder' | translate }}" />
+
                 <app-error-field [inputField]="mutationForm.get('amount')!" />
             </div>
             <div class="mb-4">
-                <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                <label for="date" class="block text-sm font-medium text-gray-700">{{ 'mutation.date' | translate
+                    }}</label>
                 <input type="date" id="date" formControlName="date"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    placeholder="{{ 'mutation.datePlaceholder' | translate }}" />
+
                 <app-error-field [inputField]="mutationForm.get('date')!" />
             </div>
             <div class="mb-4">
-                <label for="person" class="block text-sm font-medium text-gray-700">Person</label>
+                <label for="person" class="block text-sm font-medium text-gray-700">{{ 'mutation.person' | translate
+                    }}</label>
                 <input type="text" id="person" formControlName="person"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    placeholder="{{ 'mutation.personPlaceholder' | translate }}" />
+
                 <app-error-field [inputField]="mutationForm.get('person')!" />
             </div>
             <app-loadingbutton [buttonText]="'submit'" [loadingText]="'submit'" [form]="mutationForm"

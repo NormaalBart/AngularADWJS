@@ -8,11 +8,12 @@ import { currencyValidator } from '../../validators/UtilValidator';
 import { Timestamp } from '@angular/fire/firestore';
 import { LoadingbuttonComponent } from '../../loadingbutton/loadingbutton.component';
 import { DangerActionComponent } from '../../project-danger-zone/danger-action/project-danger-zone-danger-action';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-mutation-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, ErrorFieldComponent, LoadingbuttonComponent, DangerActionComponent],
+    imports: [CommonModule, ReactiveFormsModule, ErrorFieldComponent, LoadingbuttonComponent, DangerActionComponent, TranslateModule],
     templateUrl: './mutation-form.component.html',
 })
 export class MutationFormComponent implements OnChanges {
