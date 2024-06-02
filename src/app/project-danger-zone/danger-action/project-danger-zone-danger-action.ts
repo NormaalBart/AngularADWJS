@@ -14,7 +14,7 @@ import { compareString } from '../../validators/UtilValidator';
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingbuttonComponent, ErrorFieldComponent],
   templateUrl: './project-danger-zone-danger-action.html',
 })
-export class DangerActionComponent implements OnInit{
+export class DangerActionComponent implements OnInit {
 
   formBuilder = inject(FormBuilder);
   projectService = inject(ProjectService);
@@ -22,18 +22,22 @@ export class DangerActionComponent implements OnInit{
   @Input() title!: string;
   @Input() warning: string | null = null;
   @Input() buttonText!: string;
-  @Input() submitForm!: () => Observable<void>;
+  @Input() submitForm!: () => Promise<void>;
+  @Input() projectName: string = '';
+  @Input() inputPlaceholder = 'dangerzone.enter_project_name'
 
-  @Output() dangerForm = this.formBuilder.group({
-    projectName: ['', [Validators.required]],
-  });
+  @Output() dangerForm!: FormGroup;
 
   showConfirmationInput: boolean = false;
   projectTitleInput: string = '';
 
   ngOnInit() {
-    this.projectService.activeProject$.subscribe(project => {
-      this.dangerForm.get('projectName')?.setValidators([Validators.required, compareString(project?.name ?? '')]);
+    if (this.projectName === '') {
+      throw new Error('Project name is required and must be set.');
+    }
+
+    this.dangerForm = this.formBuilder.group({
+      projectName: ['', [Validators.required, compareString(this.projectName)]],
     });
   }
 

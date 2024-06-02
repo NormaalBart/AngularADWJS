@@ -47,6 +47,14 @@
         }
     },
     "cancel": "Annuleren",
+    "submit": "Verzenden",
+    "mutation": {
+        "delete": {
+            "title": "Weet u zeker dat u deze mutatie wilt verwijderen?",
+            "button": "Mutatie verwijderen",
+            "placeholder": "Voer de mutatietitel in"
+        }
+    },
     "messages": {
         "auth": {
             "login": {

@@ -6,11 +6,11 @@
 
         <div class="grid grid-cols-2" *ngIf="currentUser.id == activeProject.ownerId">
             <app-project-danger-zone-danger-action [title]="'dangerzone.archive.title'"
-                [buttonText]="'dangerzone.archive.button'"
-                [submitForm]="this.archiveProject.bind(this, activeProject)" />
+                [buttonText]="'dangerzone.archive.button'" [submitForm]="this.archiveProject.bind(this, activeProject)"
+                [projectName]="activeProject.name" />
             <app-project-danger-zone-danger-action [title]="'dangerzone.delete.title'"
                 [warning]="'dangerzone.delete.warning'" [buttonText]="'dangerzone.delete.button'"
-                [submitForm]="this.deleteProject.bind(this, activeProject)" />
+                [submitForm]="this.deleteProject.bind(this, activeProject)" [projectName]="activeProject.name" />
         </div>
     </div>
 </div>

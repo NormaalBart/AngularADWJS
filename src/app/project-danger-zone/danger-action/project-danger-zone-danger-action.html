@@ -1,4 +1,4 @@
-<div class="p-4 rounded-lg shadow-lg border-2 border-red-500 bg-gray-100 m-2 h-full">
+<div class="p-4 rounded-lg shadow-lg border-2 border-red-500 bg-gray-100 h-full">
     <h2 class="text-lg font-semibold text-red-700">{{title | translate}}</h2>
     <p *ngIf="warning" class=" text-red-600">{{ warning | translate }}</p>
 
@@ -8,7 +8,7 @@
             <div class="max-w-60">
                 <input id="projectName" type="text" formControlName="projectName"
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    placeholder="{{'dangerzone.enter_project_name' | translate}}">
+                    placeholder="{{inputPlaceholder | translate}}">
             </div>
 
             <button (click)="showConfirmationInput = false; dangerForm.reset()"

@@ -21,8 +21,8 @@ export class DashboardComponent {
 
   activeProject$ = this.projectService.activeProject$;
 
-  unarchiveProject(project: Project): Observable<void> {
-    return from(new Promise<void>(async (resolve) => {
+  unarchiveProject(project: Project): Promise<void> {
+    return new Promise<void>(async (resolve) => {
       this.projectService.setArchiveProject(project.id, false).subscribe(() => {
         resolve();
         this.messageService.addMessage({
@@ -33,6 +33,6 @@ export class DashboardComponent {
           }
         } as MessageInterface);
       });
-    }));
+    });
   }
 }

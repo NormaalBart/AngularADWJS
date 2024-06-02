@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, importProvidersFrom } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, HttpClient, HttpClientModule } from '@angular/common/http';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -10,7 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
-  return  new  TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
 export const provideTranslation = () => ({
@@ -22,6 +22,7 @@ export const provideTranslation = () => ({
   },
 });
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
@@ -32,8 +33,8 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     importProvidersFrom([
-      HttpClientModule, 
+      HttpClientModule,
       TranslateModule.forRoot(provideTranslation())
-    ]),
+    ])
   ]
 };

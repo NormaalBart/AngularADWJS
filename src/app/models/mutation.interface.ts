@@ -1,7 +1,10 @@
+import { Timestamp } from "@angular/fire/firestore";
+
 export interface Mutation {
     id?: string;
+    title: string;
     amount: number;
-    date: Date;
+    date: Timestamp;
     person: string;
     projectId: string;
   }

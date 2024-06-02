@@ -21,3 +21,11 @@ export function compareString(expected: string): ValidatorFn {
         return isSame ? null : { compareString: { expected: expected, given: control.value } };
     };
 }
+
+export function currencyValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value && !/^-?\d+(\.\d{1,2})?$/.test(value)) {
+        return { invalidCurrency: true };
+    }
+    return null;
+}

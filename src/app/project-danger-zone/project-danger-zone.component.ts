@@ -34,8 +34,8 @@ export class ProjectDangerZoneComponent {
   activeProject$ = this.projectService.activeProject$;
   currentUser$ = this.authService.currentUser$;
 
-  deleteProject(project: Project): Observable<void> {
-    return from(new Promise<void>(async (resolve) => {
+  deleteProject(project: Project): Promise<void> {
+    return new Promise<void>(async (resolve) => {
       this.projectService.deleteProject(project.id).subscribe(() => {
         resolve();
         this.messageService.addMessage({
@@ -48,11 +48,11 @@ export class ProjectDangerZoneComponent {
 
         this.router.navigate([pathNames.projects.projects])
       });
-    }));
+    });
   }
 
-  archiveProject(project: Project): Observable<void> {
-    return from(new Promise<void>(async (resolve) => {
+  archiveProject(project: Project): Promise<void> {
+    return new Promise<void>(async (resolve) => {
       this.projectService.setArchiveProject(project.id, true).subscribe(() => {
         resolve();
         this.messageService.addMessage({
@@ -65,6 +65,6 @@ export class ProjectDangerZoneComponent {
 
         this.router.navigate([pathNames.projects.projects])
       });
-    }));
+    });
   }
 }

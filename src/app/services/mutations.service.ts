@@ -35,8 +35,15 @@ export class MutationService {
   }
 
   updateMutation(id: string, mutation: Mutation): Promise<void> {
+    console.log(mutation);
     const mutationDoc = doc(this.mutationsCollection, id);
-    return updateDoc(mutationDoc, { mutation });
+    return updateDoc(mutationDoc, {
+      title: mutation.title,
+      amount: mutation.amount,
+      date: mutation.date,
+      person: mutation.person,
+      projectId: mutation.projectId
+    });
   }
 
   deleteMutation(id: string): Promise<void> {
