@@ -48,6 +48,19 @@
     },
     "cancel": "Annuleren",
     "submit": "Verzenden",
+    "delete": "Verwijderen",
+    "categories": "Categorieën",
+    "category": {
+        "title": "Categorie",
+        "titlePlaceholder": "Voer de categorienaam in",
+        "delete": {
+            "placeholder": "Voer de categorienaam in"
+        },
+        "maxBudget": "Maximaal budget",
+        "maxBudgetPlaceholder": "Voer het maximale budget in",
+        "endDate": "Einddatum",
+        "endDatePlaceholder": "Kies een einddatum"
+    },
     "mutation": {
         "delete": {
             "title": "Weet u zeker dat u deze mutatie wilt verwijderen?",
@@ -55,14 +68,19 @@
             "placeholder": "Voer de mutatietitel in"
         },
         "add-mutation": "Voeg mutatie toe",
-        "title": "Titel",
+        "title": "Mutatie",
         "amount": "Bedrag",
         "date": "Datum",
         "person": "Persoon",
-        "titlePlaceholder": "Voer de titel in",
+        "titlePlaceholder": "Voer de mutatie titel in",
         "amountPlaceholder": "Voer het bedrag in",
         "datePlaceholder": "Kies een datum",
-        "personPlaceholder": "Voer de naam van de persoon in die het bedrag heeft betaald"
+        "personPlaceholder": "Voer de naam van de persoon in die het bedrag heeft betaald",
+        "category": "Categorie",
+        "selectCategory": "Selecteer een categorie"
+    },
+    "project": {
+        "create": "Project aanmaken"
     },
     "messages": {
         "auth": {

@@ -7,4 +7,6 @@ export interface Mutation {
     date: Timestamp;
     person: string;
     projectId: string;
+    categoryId: string | null;
+    categoryName?: string | null;
   }

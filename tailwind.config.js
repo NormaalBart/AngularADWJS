@@ -7,8 +7,8 @@ module.exports = {
     'bg-white',
     'bg-green-500',
     'hover:bg-green-600',
-    'bg-secondary',
-    'hover:bg-secondary-800'
+    'bg-primary',
+    'hover:bg-primary-800'
   ],
   theme: {
     extend: {

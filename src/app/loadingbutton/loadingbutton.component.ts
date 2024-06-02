@@ -18,7 +18,7 @@ export class LoadingbuttonComponent implements OnInit {
   @Input() buttonText: string = 'Opslaan';
   @Input() loadingText: string = 'Laden';
   @Input() form!: FormGroup;
-  @Input() className: string = 'bg-secondary hover:bg-secondary-800 text-white'
+  @Input() className: string = 'bg-blue-500 hover:bg-blue-700 text-white'
   @Input() submitForm!: () => Promise<void>;
 
   ngOnInit(): void {

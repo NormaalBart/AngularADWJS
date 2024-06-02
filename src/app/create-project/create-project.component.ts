@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectService } from '../services/project.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ErrorFieldComponent } from '../error-field/error-field.component';
@@ -9,11 +9,12 @@ import { MessageType } from '../models/message.interface';
 import { Router } from '@angular/router';
 import { pathNames } from '../../environments/global';
 import { AuthService } from '../services/auth.service';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-create-project',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, ErrorFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, ErrorFieldComponent, ModalComponent],
   templateUrl: './create-project.component.html',
 })
 export class CreateProjectComponent {
@@ -23,7 +24,7 @@ export class CreateProjectComponent {
   projectService = inject(ProjectService);
   authService = inject(AuthService);
   router = inject(Router);
-  
+
   currentUser$ = this.authService.currentUser$;
 
   createProjectForm = this.formBuilder.group({
@@ -45,9 +46,9 @@ export class CreateProjectComponent {
     event.stopPropagation();
   }
 
-  addProject(userId: string): void {
+  addProject(userId: string): Promise<void> {
     if (this.createProjectForm.invalid) {
-      return;
+      return Promise.resolve();
     }
     const projectName = this.createProjectForm.value.projectName!;
     this.projectService.addProject(userId, projectName).subscribe(projectId => {
@@ -56,5 +57,6 @@ export class CreateProjectComponent {
       this.createProjectForm.reset();
       this.router.navigate([pathNames.projects.projectOverview(projectId)]);
     });
+    return Promise.resolve();
   }
 }

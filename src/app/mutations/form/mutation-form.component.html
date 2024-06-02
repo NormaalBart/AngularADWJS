@@ -1,53 +1,53 @@
-<div *ngIf="selectedMutation" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-    (click)="closeModal($event)">
-    <div class="bg-white p-8 rounded-lg shadow-md w-1/2" (click)="preventModalClose($event)">
-        <div class="flex justify-between">
-            <h2 class="text-lg font-semibold mb-4">Test
-            </h2>
-            <button (click)="closeModal()" class="text-black">&times;</button>
+<app-modal title="mutation.title" [form]="mutationForm" [showModal]="selectedMutation !== null"
+    [submitFunction]="submitForm.bind(this)" (showModalChange)="showModalChange.next(undefined)"
+    [deleteFunction]="selectedMutation?.id ? this.deleteMutation.bind(this) : undefined"
+    [deleteConfirm]="selectedMutation?.title" deletePlaceholder="mutation.delete.placeholder">
+    <form [formGroup]="mutationForm" (ngSubmit)="this.submitForm()">
+        <div class="mb-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">{{ 'mutation.title' | translate
+                }}</label>
+            <input type="text" id="title" formControlName="title"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                placeholder="{{ 'mutation.titlePlaceholder' | translate }}" />
+            <app-error-field [inputField]="mutationForm.get('title')!" />
         </div>
-        <form [formGroup]="mutationForm" (ngSubmit)="submitForm()">
-            <div class="mb-4">
-                <label for="title" class="block text-sm font-medium text-gray-700">{{ 'mutation.title' | translate
-                    }}</label>
-                <input type="text" id="title" formControlName="title"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    placeholder="{{ 'mutation.titlePlaceholder' | translate }}" />
-                <app-error-field [inputField]="mutationForm.get('title')!" />
-            </div>
-            <div class="mb-4">
-                <label for="amount" class="block text-sm font-medium text-gray-700">{{ 'mutation.amount' | translate
-                    }}</label>
-                <input type="number" id="amount" formControlName="amount"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    placeholder="{{ 'mutation.amountPlaceholder' | translate }}" />
+        <div class="mb-4">
+            <label for="amount" class="block text-sm font-medium text-gray-700">{{ 'mutation.amount' | translate
+                }}</label>
+            <input type="number" id="amount" formControlName="amount"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                placeholder="{{ 'mutation.amountPlaceholder' | translate }}" />
 
-                <app-error-field [inputField]="mutationForm.get('amount')!" />
-            </div>
-            <div class="mb-4">
-                <label for="date" class="block text-sm font-medium text-gray-700">{{ 'mutation.date' | translate
-                    }}</label>
-                <input type="date" id="date" formControlName="date"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    placeholder="{{ 'mutation.datePlaceholder' | translate }}" />
+            <app-error-field [inputField]="mutationForm.get('amount')!" />
+        </div>
+        <div class="mb-4">
+            <label for="date" class="block text-sm font-medium text-gray-700">{{ 'mutation.date' | translate
+                }}</label>
+            <input type="date" id="date" formControlName="date"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                placeholder="{{ 'mutation.datePlaceholder' | translate }}" />
 
-                <app-error-field [inputField]="mutationForm.get('date')!" />
-            </div>
-            <div class="mb-4">
-                <label for="person" class="block text-sm font-medium text-gray-700">{{ 'mutation.person' | translate
-                    }}</label>
-                <input type="text" id="person" formControlName="person"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    placeholder="{{ 'mutation.personPlaceholder' | translate }}" />
+            <app-error-field [inputField]="mutationForm.get('date')!" />
+        </div>
+        <div class="mb-4">
+            <label for="person" class="block text-sm font-medium text-gray-700">{{ 'mutation.person' | translate
+                }}</label>
+            <input type="text" id="person" formControlName="person"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                placeholder="{{ 'mutation.personPlaceholder' | translate }}" />
 
-                <app-error-field [inputField]="mutationForm.get('person')!" />
-            </div>
-            <app-loadingbutton [buttonText]="'submit'" [loadingText]="'submit'" [form]="mutationForm"
-                [submitForm]="submitForm.bind(this)" />
-            <hr class="mt-2">
-            <app-project-danger-zone-danger-action *ngIf="selectedMutation.id" [title]="'mutation.delete.title'"
-                [buttonText]="'mutation.delete.button'" [submitForm]="this.deleteMutation.bind(this)"
-                [projectName]="selectedMutation.title" inputPlaceholder="mutation.delete.placeholder" />
-        </form>
-    </div>
-</div>
+            <app-error-field [inputField]="mutationForm.get('person')!" />
+        </div>
+        <div class="mb-4">
+            <label for="category" class="block text-sm font-medium text-gray-700">{{ 'mutation.category' | translate
+                }}</label>
+            <select id="category" formControlName="category"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option value="">{{ 'mutation.selectCategory' | translate }}</option>
+                <option *ngFor="let category of $categories | async" [value]="category.id">{{ category.name }}</option>
+            </select>
+
+            <app-error-field [inputField]="mutationForm.get('category')!"></app-error-field>
+        </div>
+    </form>
+</app-modal>

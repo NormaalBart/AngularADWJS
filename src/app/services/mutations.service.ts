@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core'
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 import { Observable, of, switchMap } from 'rxjs';
 import { Mutation } from '../models/mutation.interface';
 import { firebaseTables } from '../../environments/global';
@@ -38,12 +38,30 @@ export class MutationService {
       amount: mutation.amount,
       date: mutation.date,
       person: mutation.person,
-      projectId: mutation.projectId
+      projectId: mutation.projectId,
+      categoryId: mutation.categoryId,
     });
   }
 
   deleteMutation(id: string): Promise<void> {
     const mutationDoc = doc(this.mutationsCollection, id);
     return deleteDoc(mutationDoc);
+  }
+
+  deleteCategoriesMutations(projectId: string, category: string): Promise<void> {
+    const mutationsQuery = query(
+      this.mutationsCollection,
+      where('projectId', '==', projectId),
+      where('category', '==', category)
+    );
+
+    return getDocs(mutationsQuery).then(querySnapshot => {
+      const batch = writeBatch(this.firestore);
+      querySnapshot.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+
+      return batch.commit();
+    });
   }
 }

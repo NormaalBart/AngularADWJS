@@ -1,5 +1,5 @@
 <button type="button" [disabled]="form.invalid || isLoading" (click)="onSubmit()"
-  class="w-full {{className}} py-1 px-3 rounded-md focus:outline-none mt-2 flex items-center justify-center">
+  class="w-full {{className}} py-2 px-4 rounded-md focus:outline-none flex items-center justify-center">
   <ng-container *ngIf="!isLoading; else loadingTemplate">
     {{ buttonText | translate }}
   </ng-container>

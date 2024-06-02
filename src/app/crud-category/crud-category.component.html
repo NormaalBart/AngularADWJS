@@ -1,0 +1,25 @@
+<app-modal title="category.title" [form]="categoryForm" [showModal]="selectedCategory !== undefined"
+  [submitFunction]="this.submitForm.bind(this)" (showModalChange)="showModalChange.next(undefined)"
+  [deleteFunction]="selectedCategory?.id ? this.deleteCategory.bind(this) : undefined"
+  [deleteConfirm]="selectedCategory?.name" deletePlaceholder="category.delete.placeholder">
+  <form [formGroup]="categoryForm" (ngSubmit)="this.submitForm()" class="mb-2">
+    <div>
+      <label class="block text-sm font-medium">{{'category.title' | translate}}</label>
+      <input type="text" formControlName="categoryName" placeholder="{{'category.titlePlaceholder' | translate}}"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <app-error-field [inputField]="categoryForm.get('categoryName')!" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium">{{'category.maxBudget' | translate}}</label>
+      <input type="text" formControlName="maxBudget" placeholder="{{'category.maxBudgetPlaceholder' | translate}}"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <app-error-field [inputField]="categoryForm.get('maxBudget')!" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium">{{'category.endDate' | translate}}</label>
+      <input type="date" formControlName="endDate" placeholder="{{'category.endDatePlaceholder' | translate}}"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <app-error-field [inputField]="categoryForm.get('endDate')!" />
+    </div>
+  </form>
+</app-modal>

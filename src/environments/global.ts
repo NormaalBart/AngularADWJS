@@ -3,6 +3,7 @@ export const firebaseTables = {
   users: 'users',
   invites: 'invites',
   mutations: 'mutations',
+  categories: 'categories',
 }
 
 export const environment = {
