@@ -59,7 +59,7 @@ export class CreateProjectComponent {
       this.createProjectForm.reset({
         projectName: ''
       }); 
-      this.router.navigate([pathNames.projects.projectOverview(projectId)]);
+      this.router.navigate([pathNames.projects.mutations(projectId)]);
     });
     return Promise.resolve();
   }

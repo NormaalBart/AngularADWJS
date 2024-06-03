@@ -1,8 +1,1 @@
-<div *ngIf="activeProject$ | async as activeProject">
-    <app-project-danger-zone-danger-action *ngIf="activeProject.archived" [title]="'dashboard.unarchive.title'"
-        [buttonText]="'dashboard.unarchive.button'" [submitForm]="this.unarchiveProject.bind(this, activeProject)"
-        [projectName]="activeProject.name" />
-    <p>{{ activeProject.name }}</p>
-</div>
-
-<p *ngIf="!(activeProject$ | async)">geen project</p>
+<p *ngIf="!(activeProject$ | async)">Selecteer een project!</p>

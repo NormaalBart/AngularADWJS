@@ -72,15 +72,6 @@
 <ul *ngIf="sidebarStatus === SidebarStatus.ProjectDetails && (activeProject$ | async) as activeProject"
     class="space-y-2 flex-grow">
     <li [ngClass]="{
-            'bg-primary-500 hover:bg-primary-600 text-white': isActiveRoute(PathNames.projects.projectOverview(activeProject.id)),
-            'bg-white hover:bg-gray-300 text-black': !isActiveRoute(PathNames.projects.projectOverview(activeProject.id)),
-            }" class="flex items-center p-1 rounded-md cursor-pointer">
-        <a [routerLink]="PathNames.projects.projectOverview(activeProject.id)"
-            class="w-full h-full flex items-center justify-center">
-            <p>Overzicht</p>
-        </a>
-    </li>
-    <li [ngClass]="{
         'bg-primary-500 hover:bg-primary-600 text-white': isActiveRoute(PathNames.projects.mutations(activeProject.id)),
         'bg-white hover:bg-gray-300 text-black': !isActiveRoute(PathNames.projects.mutations(activeProject.id)),
         }" class="flex items-center p-1 rounded-md cursor-pointer">

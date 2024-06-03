@@ -53,7 +53,7 @@ export class ProjectSidebarComponent implements OnInit {
   }
 
   navigateToProject(project: Project) {
-    this.router.navigate([pathNames.projects.projectOverview(project.id)]);
+    this.router.navigate([pathNames.projects.mutations(project.id)]);
     this.projectService.setActiveProject(project);
   }
 

@@ -11,13 +11,14 @@ import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.interface';
 import { first } from 'rxjs';
 import { MessageComponent } from '../../message/message.component';
-import { MessageType } from '../../models/message.interface';
+import { MessageInterface, MessageType } from '../../models/message.interface';
 import { MessageService } from '../../services/mesasge.service';
+import { DangerActionComponent } from '../../project-danger-zone/danger-action/project-danger-zone-danger-action';
 
 @Component({
   selector: 'admin-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, ReactiveFormsModule, CreateProjectComponent, ProjectSidebarComponent],
+  imports: [CommonModule, RouterModule, TranslateModule, ReactiveFormsModule, CreateProjectComponent, ProjectSidebarComponent, DangerActionComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -31,6 +32,7 @@ export class AdminComponent implements OnInit {
   currentUser$ = this.authService.currentUser$;
 
   projects$ = this.projectService.projects$;
+  activeProject$ = this.projectService.activeProject$;
 
   isLoading = true;
 
@@ -78,6 +80,22 @@ export class AdminComponent implements OnInit {
     this.messageService.addMessage({
       type: MessageType.Information,
       translateKey: 'auth.logout'
+    });
+  }
+
+
+  unarchiveProject(project: Project): Promise<void> {
+    return new Promise<void>(async (resolve) => {
+      this.projectService.setArchiveProject(project.id, false).subscribe(() => {
+        resolve();
+        this.messageService.addMessage({
+          type: MessageType.Warning,
+          translateKey: 'project.unarchived',
+          params: {
+            projectName: project.name
+          }
+        } as MessageInterface);
+      });
     });
   }
 }

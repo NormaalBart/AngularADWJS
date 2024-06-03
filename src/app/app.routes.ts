@@ -27,12 +27,6 @@ export const routes: Routes = [
     data: { authGuardPipe: () => redirectUnauthorizedTo([pathNames.auth.login]) },
   },
   {
-    path: pathNames.projects.projectOverview(':projectId'),
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
-    data: { authGuardPipe: () => redirectUnauthorizedTo([pathNames.auth.login]) },
-  },
-  {
     path: pathNames.projects.mutations(':projectId'),
     component: MutationsComponent,
     canActivate: [AuthGuard],

@@ -17,22 +17,6 @@ import { MessageInterface, MessageType } from '../models/message.interface';
 export class DashboardComponent {
 
   projectService = inject(ProjectService);
-  messageService = inject(MessageService);
-
   activeProject$ = this.projectService.activeProject$;
 
-  unarchiveProject(project: Project): Promise<void> {
-    return new Promise<void>(async (resolve) => {
-      this.projectService.setArchiveProject(project.id, false).subscribe(() => {
-        resolve();
-        this.messageService.addMessage({
-          type: MessageType.Warning,
-          translateKey: 'project.unarchived',
-          params: {
-            projectName: project.name
-          }
-        } as MessageInterface);
-      });
-    });
-  }
 }
