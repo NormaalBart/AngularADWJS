@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Chart, ChartData, ChartOptions, ChartType, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Mutation } from '../models/mutation.interface';
@@ -13,7 +13,7 @@ Chart.register(...registerables);
   imports: [CommonModule, BaseChartDirective],
   templateUrl: './graph.component.html',
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent implements OnInit, OnChanges {
 
   @Input() mutations: Mutation[] = [];
   public barChartOptions: ChartOptions = {
@@ -28,9 +28,13 @@ export class GraphComponent implements OnInit {
     ]
   };
   public chartType: ChartType = 'bar';
-  public viewBy: 'month' | 'day' = 'month'; // State to track the view type
+  public viewBy: 'month' | 'day' = 'month';
 
   ngOnInit() {
+    this.updateChart();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
     this.updateChart();
   }
 
