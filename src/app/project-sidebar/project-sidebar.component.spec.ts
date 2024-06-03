@@ -71,7 +71,7 @@ describe('ProjectSidebarComponent', () => {
         spyOn(router, 'navigate');
         const project: Project = { id: 'project1', name: 'Project 1', archived: false, ownerId: 'ownerid', access: ['ownerid'], invites: [] };
         component.navigateToProject(project);
-        expect(router.navigate).toHaveBeenCalledWith([pathNames.projects.projectOverview(project.id)]);
+        expect(router.navigate).toHaveBeenCalledWith([pathNames.projects.mutations(project.id)]);
         expect(projectServiceMock.setActiveProject).toHaveBeenCalledWith(project);
     });
 

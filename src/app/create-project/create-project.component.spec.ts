@@ -73,7 +73,7 @@ describe('CreateProjectComponent', () => {
             translateKey: 'project.created',
             params: { projectName: 'New Project' }
         });
-        expect(routerMock.navigate).toHaveBeenCalledWith([pathNames.projects.projectOverview('new-project-id')]);
+        expect(routerMock.navigate).toHaveBeenCalledWith([pathNames.projects.mutations('new-project-id')]);
     });
 
     it('should reset the form and close the modal when closing the modal', () => {
