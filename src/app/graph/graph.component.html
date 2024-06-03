@@ -1,0 +1,17 @@
+<div class="p-4">
+    <div class="flex justify-between items-center mb-4">
+        <div>
+            <button class="bg-blue-500 text-white py-2 px-4 rounded mr-2" (click)="toggleChartType()">
+                Toggle Chart Type
+            </button>
+            <button class="bg-green-500 text-white py-2 px-4 rounded" (click)="toggleViewBy()">
+                View by {{ viewBy === 'month' ? 'Day' : 'Month' }}
+            </button>
+        </div>
+    </div>
+    <div class="bg-white p-4 rounded shadow-md">
+        <canvas baseChart [datasets]="chartData.datasets" [labels]="chartData.labels" [options]="barChartOptions"
+            [legend]="chartLegend" [type]="chartType">
+        </canvas>
+    </div>
+</div>

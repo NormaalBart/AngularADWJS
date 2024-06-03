@@ -14,11 +14,12 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { emptyCategoryFilter } from '../../environments/global';
 import { Category } from '../models/category.interface';
 import { ClosingcontentComponent } from '../closingcontent/closingcontent.component';
+import { GraphComponent } from '../graph/graph.component';
 
 @Component({
   selector: 'app-mutations',
   standalone: true,
-  imports: [CommonModule, FormsModule, MutationFormComponent, TranslateModule, CategoriesComponent, DragDropModule, ClosingcontentComponent],
+  imports: [CommonModule, FormsModule, MutationFormComponent, TranslateModule, CategoriesComponent, DragDropModule, ClosingcontentComponent, GraphComponent],
   templateUrl: './mutations.component.html',
 })
 export class MutationsComponent {

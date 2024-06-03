@@ -2,7 +2,7 @@
     <div *ngIf="categories$ | async as categories" class="w-full h-full">
         <div *ngIf="enrichedMutations$ | async as mutations">
             <app-closingcontent title="graph">
-                Grafiek todo..
+                <app-graph [mutations]="filterMutations(mutations)"></app-graph>
             </app-closingcontent>
 
             <app-closingcontent title="options">
