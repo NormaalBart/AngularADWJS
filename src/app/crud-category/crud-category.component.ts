@@ -48,6 +48,8 @@ export class CrudCategoryComponent implements OnChanges {
       } else {
         this.categoryForm.reset({
           categoryName: '',
+          maxBudget: '',
+          endDate: ''
         });
       }
     }
@@ -56,7 +58,11 @@ export class CrudCategoryComponent implements OnChanges {
   closeModal(event?: MouseEvent) {
     if (!event || event.target === event.currentTarget) {
       this.showModalChange.emit(undefined);
-      this.categoryForm.reset();
+      this.categoryForm.reset({
+        categoryName: '',
+        maxBudget: '',
+        endDate: ''
+      });
     }
   }
 
@@ -82,7 +88,6 @@ export class CrudCategoryComponent implements OnChanges {
         this.closeModal();
       });
     } else {
-      console.log('calling add');
       return this.categoryService.addCategory(category).then(() => {
         this.closeModal()
       });

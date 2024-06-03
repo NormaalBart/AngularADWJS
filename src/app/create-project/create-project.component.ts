@@ -38,7 +38,9 @@ export class CreateProjectComponent {
     if (!event || event.target === event.currentTarget) {
       this.showModalChange.emit(false);
       this.showModal = false;
-      this.createProjectForm.reset();
+      this.createProjectForm.reset({
+        projectName: ''
+      });
     }
   }
 
@@ -54,7 +56,9 @@ export class CreateProjectComponent {
     this.projectService.addProject(userId, projectName).subscribe(projectId => {
       this.messageservice.addMessage({ type: MessageType.Success, translateKey: 'project.created', params: { projectName } });
       this.closeModal(undefined);
-      this.createProjectForm.reset();
+      this.createProjectForm.reset({
+        projectName: ''
+      }); 
       this.router.navigate([pathNames.projects.projectOverview(projectId)]);
     });
     return Promise.resolve();

@@ -6,7 +6,6 @@ import { ErrorFieldComponent } from '../../error-field/error-field.component';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
 import { LoadingbuttonComponent } from '../../loadingbutton/loadingbutton.component';
 import { ProjectService } from '../../services/project.service';
-import { compareString } from '../../validators/UtilValidator';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { Project } from '../../models/project.interface';
@@ -19,7 +18,7 @@ import { User } from '../../models/user.class';
   selector: 'app-project-danger-zone-collaborators',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingbuttonComponent, ErrorFieldComponent],
-  templateUrl: './collaborators.html',
+  templateUrl: './collaborators-component.html',
 })
 export class CollaboratorsComponent implements OnInit {
 

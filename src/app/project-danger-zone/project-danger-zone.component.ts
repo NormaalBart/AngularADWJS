@@ -14,8 +14,8 @@ import { pathNames } from '../../environments/global';
 import { MessageService } from '../services/mesasge.service';
 import { MessageInterface, MessageType } from '../models/message.interface';
 import { DangerActionComponent } from './danger-action/project-danger-zone-danger-action';
-import { CollaboratorsComponent } from './collaborators/collaborators';
 import { AuthService } from '../services/auth.service';
+import { CollaboratorsComponent } from './collaborators/collaborators-component';
 
 @Component({
   selector: 'app-project-danger-zone',
