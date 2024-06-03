@@ -34,7 +34,13 @@ export class InviteService {
   }
 
   inviteUser(project: Project, user: User): Promise<void> {
-    return addDoc(this.invitesCollection, { projectName: project.name, projectId: project.id, userId: user.id }).then(() => { });
+    const inviteId = `${project.id}_${user.id}`;
+    const inviteDocRef = doc(this.invitesCollection, inviteId);
+    return setDoc(inviteDocRef, {
+      projectName: project.name,
+      projectId: project.id,
+      userId: user.id
+    });
   }
 
   async isUserInvited(projectId: string, userId: string): Promise<boolean> {
@@ -51,7 +57,6 @@ export class InviteService {
   async acceptInvite(invite: InviteInterface): Promise<void> {
     const docRef = doc(this.invitesCollection, invite.id);
     return this.projectService.addUser(invite.projectId, invite.userId).then(() => {
-      console.log('deleted');
       return deleteDoc(docRef);
     });
   }

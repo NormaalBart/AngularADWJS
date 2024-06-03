@@ -69,12 +69,9 @@ export class ProjectService {
 
   addUser(projectId: string, userId: string): Promise<void> {
     const docRef = doc(this.projectsCollection, projectId);
-    console.log(docRef, userId)
     return getDoc(docRef).then(doc => {
       if (doc.exists()) {
-        console.log(doc.data())
         const project = doc.data() as Project;
-        console.log(project);
         if (docRef) {
           return updateDoc(docRef, { access: [...project.access, userId] });
         }

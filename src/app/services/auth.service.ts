@@ -58,13 +58,14 @@ export class AuthService {
 
     return from(createUserPromise).pipe(
       switchMap((userCredential: UserCredential) => {
-        const userDocData: User = new User(
-          userCredential.user.uid,
-          model.displayName,
-          model.email,
-        );
+        const userDocData = {
+          id: userCredential.user.uid,
+          displayName: model.displayName,
+          email: model.email,
+        };
         return from(setDoc(doc(this.usersCollection, userCredential.user.uid), userDocData));
-      }));
+      })
+    );
   }
 
   logout(): Observable<void> {
