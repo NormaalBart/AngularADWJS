@@ -1,0 +1,63 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+      function isUserInProject(projectId) {
+        let project = get(/databases/$(database)/documents/projects/$(projectId));
+        return project != null && project.data.access.hasAny([request.auth.uid]);
+      }
+
+    
+    // Projects collection rules
+    match /projects/{project} {
+      allow read: if request.auth != null && (
+         isUserInAccessList(resource.data.access)  ||
+         isUserInInvite(request.auth.uid, resource.id));
+      allow create: if request.auth != null;
+      allow delete: if request.auth.uid == resource.data.ownerId;
+      allow update: if request.auth != null && (
+        isUserInAccessList(resource.data.access)  ||
+        isUserInInvite(request.auth.uid, resource.id));
+      
+      function isUserInAccessList(accessList) {
+        return request.auth.uid in accessList;
+      }
+      
+      function isUserInInvite(userId, projectId) {
+        return exists(/databases/$(database)/documents/invites/$(projectId + '_' + userId));
+      }
+    }
+    
+    // Invites collection rules
+    match /invites/{inviteId} {
+      allow create: if request.auth != null && isUserInProject(request.resource.data.projectId);
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow read: if request.auth != null;
+    }
+    
+    // Categories collection rules
+    match /categories/{categorieId} {
+      allow create: if request.auth != null && isUserInProject(request.resource.data.projectId);
+      allow delete: if request.auth != null && isUserInProject(resource.data.projectId);
+      allow read: if request.auth != null && isUserInProject(resource.data.projectId);
+      allow update: if request.auth != null && isUserInProject(resource.data.projectId);
+    }
+    
+    // Mutations collection rules
+    match /mutations/{mutationsId} {
+      allow create: if request.auth != null && isUserInProject(request.resource.data.projectId);
+      allow delete: if request.auth != null && isUserInProject(resource.data.projectId);
+      allow read: if request.auth != null && isUserInProject(resource.data.projectId);
+      allow update: if request.auth != null && isUserInProject(resource.data.projectId);
+    }
+    
+    // Users collection rules
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow delete: if false;
+      allow update: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
